@@ -1,0 +1,114 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="IG_TableExporter.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="BranchListName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">List_Branch</Value>
+    </Setting>
+    <Setting Name="BranchDefineName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Define_Branch</Value>
+    </Setting>
+    <Setting Name="TablePrefix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">IG_</Value>
+    </Setting>
+    <Setting Name="TablePostfix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Table</Value>
+    </Setting>
+    <Setting Name="TableInfoName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">tableinfo</Value>
+    </Setting>
+    <Setting Name="TableName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">테이블명</Value>
+    </Setting>
+    <Setting Name="BranchName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">브랜치명</Value>
+    </Setting>
+    <Setting Name="UniqueKeyName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">유일키설정</Value>
+    </Setting>
+    <Setting Name="Seperator" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">,</Value>
+    </Setting>
+    <Setting Name="NotePrefix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">StageNote_</Value>
+    </Setting>
+    <Setting Name="NoteMaxSpawn" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="PermilFactor" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="SpawnPropertyName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">SpawnIndex</Value>
+    </Setting>
+    <Setting Name="ProbPropertyName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Prob</Value>
+    </Setting>
+    <Setting Name="DefaultValue" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="NextTimeName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">NextTime</Value>
+    </Setting>
+    <Setting Name="MonsterTablePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MonsterSpritePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ResourcePathTablePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MonsterInfoTableName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">MonsterData</Value>
+    </Setting>
+    <Setting Name="MonsterSpriteExtension" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.png</Value>
+    </Setting>
+    <Setting Name="SpriteImageSize" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">40</Value>
+    </Setting>
+    <Setting Name="StageTablePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ResourcePathTableName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">IG_ResourcePathTable</Value>
+    </Setting>
+    <Setting Name="ResourceAssetPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="ResourceVerificationFieldName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">검증</Value>
+    </Setting>
+    <Setting Name="MonsterImageMaxWidth" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">128</Value>
+    </Setting>
+    <Setting Name="MonsterImageMaxHeight" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">128</Value>
+    </Setting>
+    <Setting Name="BranchSubgroupName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Define_Subgroup</Value>
+    </Setting>
+    <Setting Name="MetaTablePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="MetaTable_Prefix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">IG</Value>
+    </Setting>
+    <Setting Name="MetaTableSubgroup_Prefix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">IGType</Value>
+    </Setting>
+    <Setting Name="SubgroupSeperator" Type="System.Char" Scope="Application">
+      <Value Profile="(Default)">;</Value>
+    </Setting>
+    <Setting Name="MonsterTableName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">IG_MonsterTable</Value>
+    </Setting>
+    <Setting Name="MonsterTableDefaultStageName" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">Common</Value>
+    </Setting>
+    <Setting Name="TablePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+  </Settings>
+</SettingsFile>

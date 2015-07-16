@@ -1,0 +1,12 @@
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\bin\Release\IC_TableExporter.dll.config
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\bin\Release\IC_TableExporter.dll
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\bin\Release\IC_TableExporter.pdb
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\bin\Release\IC_TableExporter.dll.manifest
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\bin\Release\IC_TableExporter.vsto
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\bin\Release\Microsoft.Office.Tools.Common.v4.0.Utilities.dll
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\bin\Release\Microsoft.Office.Tools.Common.v4.0.Utilities.xml
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\obj\Release\IC_TableExporter.IC_Ribbon.resources
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\obj\Release\IC_TableExporter.Properties.Resources.resources
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\obj\Release\IC_TableExporter.csproj.GenerateResource.Cache
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\obj\Release\IC_TableExporter.dll
+D:\Dropbox\Work\IC_PlanTool\IC_TableExporter\AS_TableExporter\obj\Release\IC_TableExporter.pdb
