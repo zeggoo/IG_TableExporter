@@ -896,6 +896,8 @@ namespace IG_TableExporter
         {
             int maxLength = -1;
             string maxRound = "";
+            bool hasEndbox = false;
+
             foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
             {
                 foreach (Excel.ListObject lo in ws.ListObjects)
@@ -906,8 +908,19 @@ namespace IG_TableExporter
                         {
                             string lastRound = "";
                             for (int i = 1; i <= Properties.Settings.Default.NoteMaxSpawn; i++)
-                                    lastRound += Convert.ToString(lo.DataBodyRange[r, lo.ListColumns["Spawn" + i].Index].value2);
-                            if (lo.DataBodyRange[r, lo.ListColumns["Round"].Index].value2 > maxLength && maxRound != lastRound)
+                            {
+                                int spawn = Convert.ToInt32(lo.DataBodyRange[r, lo.ListColumns["Spawn" + i].Index].value2);
+                                if (spawn == Properties.Settings.Default.EndboxIndex)
+                                    hasEndbox = true;
+                                lastRound += spawn;                                
+                            }
+
+                            if (lo.DataBodyRange[r, lo.ListColumns["Round"].Index].value2 < maxLength)
+                            {
+                                // 라운드값이 순차적이지 않을 때
+                                throw new Exception(r + "번째 라운드(" + lo.DataBodyRange[r, lo.ListColumns["Round"].Index].value2 + "ms)의 시간값이 잘못 기입되어있습니다.");
+                            }
+                            else if (lo.DataBodyRange[r, lo.ListColumns["Round"].Index].value2 > maxLength && maxRound != lastRound)
                             {
                                 maxLength = Convert.ToInt32(lo.DataBodyRange[r, lo.ListColumns["Round"].Index].value2);
                                 maxRound = lastRound;
@@ -917,6 +930,8 @@ namespace IG_TableExporter
                 }
             }
 
+            if (!hasEndbox)
+                throw new Exception("ENDBOX가 존재하지 않습니다.");
             if (maxLength < 0)
                 throw new Exception("라운드 정보가 잘못 기입되었습니다.");
 
