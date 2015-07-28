@@ -110,6 +110,9 @@ namespace IG_TableExporter
                         case "GOLD":
                             monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.Gold;
                             break;
+                        case "BIGGOLD":
+                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.Goldenrod;
+                            break;
                         case "ENDBOX":
                             monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightSlateGray;
                             break;
