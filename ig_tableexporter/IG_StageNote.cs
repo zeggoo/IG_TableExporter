@@ -14,9 +14,6 @@ namespace IG_TableExporter
         private int length;
         private int count;
 
-        private int point;
-        private int gold;
-
         private StringBuilder sb;
         private StringWriter sw;
         private JsonTextWriter json;
@@ -37,27 +34,9 @@ namespace IG_TableExporter
             }
         }
 
-        public int Point
-        {
-            get
-            {
-                return this.point;
-            }
-        }
-
-        public int Gold
-        {
-            get
-            {
-                return this.gold;
-            }
-        }
-
-        public IG_StageNote(int length, int point, int gold)
+        public IG_StageNote(int length)
         {
             this.length = length;
-            this.point = point;
-            this.gold = gold;
             this.count = 0;
 
             sb = new StringBuilder();
@@ -74,12 +53,6 @@ namespace IG_TableExporter
             // 스테이지노트 메타정보 추가
             json.WritePropertyName("Length");
             json.WriteRawValue((this.length / 10f).ToString());
-
-            json.WritePropertyName("Point");
-            json.WriteRawValue(this.point.ToString());
-
-            json.WritePropertyName("Gold");
-            json.WriteRawValue(this.gold.ToString());
         }
 
         public void StartAdd(int key)

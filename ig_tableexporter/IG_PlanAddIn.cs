@@ -391,9 +391,7 @@ namespace IG_TableExporter
 
             // 스테이지 최대 길이 및 보상정보 구하기
             int maxRound = GetNoteLength();
-            int maxPoint = GetStagePoint(maxRound);
-            int maxGold = GetStageGold(maxRound);
-            IG_StageNote note = new IG_StageNote(maxRound, maxPoint, maxGold);
+            IG_StageNote note = new IG_StageNote(maxRound);
 
             // row 순서대로 브랜치를 체크하여 데이터로 출력
             foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
@@ -938,41 +936,44 @@ namespace IG_TableExporter
 
             return maxLength;
         }
-        private int GetStagePoint(int maxRound)
-        {         
-            foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
-            {
-                foreach (Excel.ListObject lo in ws.ListObjects)
-                {
-                    if (lo.Name.Length >= Properties.Settings.Default.NotePrefix.Length && lo.Name.Substring(0, Properties.Settings.Default.NotePrefix.Length).Equals(Properties.Settings.Default.NotePrefix))
-                    {
-                        for (int r = 1; r <= lo.ListRows.Count; r++)
-                            if (lo.DataBodyRange[r, lo.ListColumns["Round"].Index].value == maxRound)                            
-                                return Convert.ToInt32(lo.DataBodyRange[r, lo.ListColumns["누적포인트"].Index].value);
-                    }
-                }
-            }
 
-            throw new Exception("스테이지 누적포인트 정보가 잘못 기입되었습니다.");
-        }
+        // 밸런스문서에서 처리하도록 변경
+        //private int GetStagePoint(int maxRound)
+        //{         
+        //    foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
+        //    {
+        //        foreach (Excel.ListObject lo in ws.ListObjects)
+        //        {
+        //            if (lo.Name.Length >= Properties.Settings.Default.NotePrefix.Length && lo.Name.Substring(0, Properties.Settings.Default.NotePrefix.Length).Equals(Properties.Settings.Default.NotePrefix))
+        //            {
+        //                for (int r = 1; r <= lo.ListRows.Count; r++)
+        //                    if (lo.DataBodyRange[r, lo.ListColumns["Round"].Index].value == maxRound)                            
+        //                        return Convert.ToInt32(lo.DataBodyRange[r, lo.ListColumns["누적포인트"].Index].value);
+        //            }
+        //        }
+        //    }
 
-        private int GetStageGold(int maxRound)
-        {
-            foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
-            {
-                foreach (Excel.ListObject lo in ws.ListObjects)
-                {
-                    if (lo.Name.Length >= Properties.Settings.Default.NotePrefix.Length && lo.Name.Substring(0, Properties.Settings.Default.NotePrefix.Length).Equals(Properties.Settings.Default.NotePrefix))
-                    {
-                        for (int r = 1; r <= lo.ListRows.Count; r++)
-                            if (lo.DataBodyRange[r, lo.ListColumns["Round"].Index].value == maxRound)
-                                return Convert.ToInt32(lo.DataBodyRange[r, lo.ListColumns["누적골드"].Index].value);
-                    }
-                }
-            }
+        //    throw new Exception("스테이지 누적포인트 정보가 잘못 기입되었습니다.");
+        //}
 
-            throw new Exception("스테이지 누적골드 정보가 잘못 기입되었습니다.");
-        }
+        // 밸런스문서에서 처리하도록 변경
+        //private int GetStageGold(int maxRound)
+        //{
+        //    foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
+        //    {
+        //        foreach (Excel.ListObject lo in ws.ListObjects)
+        //        {
+        //            if (lo.Name.Length >= Properties.Settings.Default.NotePrefix.Length && lo.Name.Substring(0, Properties.Settings.Default.NotePrefix.Length).Equals(Properties.Settings.Default.NotePrefix))
+        //            {
+        //                for (int r = 1; r <= lo.ListRows.Count; r++)
+        //                    if (lo.DataBodyRange[r, lo.ListColumns["Round"].Index].value == maxRound)
+        //                        return Convert.ToInt32(lo.DataBodyRange[r, lo.ListColumns["누적골드"].Index].value);
+        //            }
+        //        }
+        //    }
+
+        //    throw new Exception("스테이지 누적골드 정보가 잘못 기입되었습니다.");
+        //}
 
         private bool IsValidNote(int r, List<Tuple<int, int, float>> noteElement)
         {
