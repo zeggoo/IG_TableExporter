@@ -208,3 +208,9 @@ FakesAssemblies/
 *.opt
 *.suo
 *.pdb
+*.pdb
+ig_tableexporter/obj/Debug/IG_TableExporter.pdb
+*.pdb
+ig_tableexporter/bin/Debug/IG_TableExporter.pdb
+*.suo
+IG_TableExporter.v12.suo

@@ -631,81 +631,83 @@ namespace IG_TableExporter
             return monsterInfos;
         }
 
-        public int RefreshMonsterInfoTable(List<MonsterInfo> monsterInfos, string stage)
-        {
-            int cntTable = 0;
-            int cnt = 0;
-            foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
-            {
-                foreach (Excel.ListObject lo in ws.ListObjects)
-                {
-                    if (lo.Name.Equals(Properties.Settings.Default.MonsterInfoTableName))
-                    {
-                        cntTable++;
+        // 밸런스문서에서 처리함
+        //public int RefreshMonsterInfoTable(List<MonsterInfo> monsterInfos, string stage)
+        //{
+        //    int cntTable = 0;
+        //    int cnt = 0;
+        //    foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
+        //    {
+        //        foreach (Excel.ListObject lo in ws.ListObjects)
+        //        {
+        //            if (lo.Name.Equals(Properties.Settings.Default.MonsterInfoTableName))
+        //            {
+        //                cntTable++;
 
-                        foreach (Excel.Shape shape in ws.Shapes)
-                            shape.Delete();
+        //                foreach (Excel.Shape shape in ws.Shapes)
+        //                    shape.Delete();
 
-                        lo.DataBodyRange.ClearContents();
+        //                lo.DataBodyRange.ClearContents();
 
-                        foreach (MonsterInfo info in monsterInfos)
-                        {
-                            if (String.IsNullOrEmpty(info.stage) || info.stage.Trim() == stage.Trim())
-                            {
-                                cnt++;
-                                lo.DataBodyRange[cnt, lo.ListColumns["인덱스"].Index].value2 = info.index;
-                                lo.DataBodyRange[cnt, lo.ListColumns["타입"].Index].value2 = info.type;
-                                lo.DataBodyRange[cnt, lo.ListColumns["경험치"].Index].value2 = info.exp;
-                                lo.DataBodyRange[cnt, lo.ListColumns["포인트"].Index].value2 = info.point;
-                                lo.DataBodyRange[cnt, lo.ListColumns["골드"].Index].value2 = info.GetGold();
+        //                foreach (MonsterInfo info in monsterInfos)
+        //                {
+        //                    if (String.IsNullOrEmpty(info.stage) || info.stage.Trim() == stage.Trim())
+        //                    {
+        //                        cnt++;
+        //                        lo.DataBodyRange[cnt, lo.ListColumns["인덱스"].Index].value2 = info.index;
+        //                        lo.DataBodyRange[cnt, lo.ListColumns["타입"].Index].value2 = info.type;
+        //                        lo.DataBodyRange[cnt, lo.ListColumns["경험치"].Index].value2 = info.exp;
+        //                        lo.DataBodyRange[cnt, lo.ListColumns["포인트"].Index].value2 = info.point;
+        //                        lo.DataBodyRange[cnt, lo.ListColumns["골드"].Index].value2 = info.GetGold();
 
-                                //lo.DataBodyRange[cnt, lo.ListColumns["스프라이트"].Index].value2 = info.sprite;         
-                                InsertMonsterSpriteImage(info.sprite, ws, lo, cnt, lo.ListColumns["스프라이트"].Index);
-                            }
-                        }
+        //                        //lo.DataBodyRange[cnt, lo.ListColumns["스프라이트"].Index].value2 = info.sprite;         
+        //                        InsertMonsterSpriteImage(info.sprite, ws, lo, cnt, lo.ListColumns["스프라이트"].Index);
+        //                    }
+        //                }
 
-                        lo.Resize(ws.Range[ws.Cells[lo.HeaderRowRange.Row, lo.HeaderRowRange.Column], ws.Cells[lo.HeaderRowRange.Row + cnt, lo.HeaderRowRange.Column + lo.ListColumns.Count - 1]]);                        
-                    }
-                }
-            }
+        //                lo.Resize(ws.Range[ws.Cells[lo.HeaderRowRange.Row, lo.HeaderRowRange.Column], ws.Cells[lo.HeaderRowRange.Row + cnt, lo.HeaderRowRange.Column + lo.ListColumns.Count - 1]]);                        
+        //            }
+        //        }
+        //    }
 
-            if (cntTable <= 0)
-                throw new Exception("[" + Properties.Settings.Default.MonsterInfoTableName + "]표가 존재하지 않습니다.");
+        //    if (cntTable <= 0)
+        //        throw new Exception("[" + Properties.Settings.Default.MonsterInfoTableName + "]표가 존재하지 않습니다.");
 
-            return cnt;
-        }
+        //    return cnt;
+        //}
 
-        private void InsertMonsterSpriteImage(string spriteName, Excel.Worksheet ws, Excel.ListObject lo, int row, int col)
-        {
-            Excel.Range rng = ws.Range[ws.Cells[lo.HeaderRowRange.Row + row, lo.HeaderRowRange.Column + col-1], ws.Cells[lo.HeaderRowRange.Row + row, lo.HeaderRowRange.Column + col-1]];            
+        // 밸런스문서에서 처리함
+        //private void InsertMonsterSpriteImage(string spriteName, Excel.Worksheet ws, Excel.ListObject lo, int row, int col)
+        //{
+        //    Excel.Range rng = ws.Range[ws.Cells[lo.HeaderRowRange.Row + row, lo.HeaderRowRange.Column + col-1], ws.Cells[lo.HeaderRowRange.Row + row, lo.HeaderRowRange.Column + col-1]];            
            
-            float size = Properties.Settings.Default.SpriteImageSize;
+        //    float size = Properties.Settings.Default.SpriteImageSize;
 
-            ws.Rows[lo.HeaderRowRange.Row + row].RowHeight = size;
-            //ws.Columns[lo.HeaderRowRange.Column + col - 1].ColumnWidth = size;
+        //    ws.Rows[lo.HeaderRowRange.Row + row].RowHeight = size;
+        //    //ws.Columns[lo.HeaderRowRange.Column + col - 1].ColumnWidth = size;
 
-            if (!System.IO.Directory.Exists(Properties.Settings.Default.MonsterSpritePath))
-            {
-                mInfoPath.monsterSprite = false;
-                throw new FileNotFoundException("스프라이트 폴더 패스 오류", Properties.Settings.Default.MonsterSpritePath);
-            }
+        //    if (!System.IO.Directory.Exists(Properties.Settings.Default.MonsterSpritePath))
+        //    {
+        //        mInfoPath.monsterSprite = false;
+        //        throw new FileNotFoundException("스프라이트 폴더 패스 오류", Properties.Settings.Default.MonsterSpritePath);
+        //    }
                 
-            try
-            {                
-                //ws.Shapes.AddPicture(Properties.Settings.Default.MonsterSpritePath + Path.DirectorySeparatorChar + spriteName + Properties.Settings.Default.MonsterSpriteExtension,
-                if (!String.IsNullOrEmpty(spriteName))
-                {
-                    ws.Shapes.AddPicture(MonsterSpritePaths[spriteName],
-                               Office.MsoTriState.msoTrue, Office.MsoTriState.msoTrue,
-                               rng.Left /*+ ( rng.Left - size ) / 2*/, rng.Top, Convert.ToInt32(size / 2), Convert.ToInt32(size / 2));
+        //    try
+        //    {                
+        //        //ws.Shapes.AddPicture(Properties.Settings.Default.MonsterSpritePath + Path.DirectorySeparatorChar + spriteName + Properties.Settings.Default.MonsterSpriteExtension,
+        //        if (!String.IsNullOrEmpty(spriteName))
+        //        {
+        //            ws.Shapes.AddPicture(MonsterSpritePaths[spriteName],
+        //                       Office.MsoTriState.msoTrue, Office.MsoTriState.msoTrue,
+        //                       rng.Left /*+ ( rng.Left - size ) / 2*/, rng.Top, Convert.ToInt32(size / 2), Convert.ToInt32(size / 2));
 
-                    rng.AutoFit();
-                }
-            }
-            catch (Exception)
-            {
-            }
-        }
+        //            rng.AutoFit();
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+        //    }
+        //}
 
         private Dictionary<string, string> GetMonsterSpritePaths()
         {

@@ -186,8 +186,9 @@ namespace IG_TableExporter
                 // 몬스터 데이터 불러오기                
                 monsterInfo = Globals.IG_PlanAddIn.GetMonsterInfo(spriteNames);
                 
+                // 밸런스문서에서 처리함
                 // 몬스터데이터 표에 정보 기입하기
-                cnt = Globals.IG_PlanAddIn.RefreshMonsterInfoTable(monsterInfo, stageName);
+                //cnt = Globals.IG_PlanAddIn.RefreshMonsterInfoTable(monsterInfo, stageName);
 
                 // TASK PANE 테스트
                 if (monsterInfoTask == null || monsterInfoTask.StageName != stageName)
