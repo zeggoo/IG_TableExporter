@@ -95,6 +95,9 @@ namespace IG_TableExporter
                         case "WALL":
                             monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightBlue;
                             break;
+                        case "TRAPCHEST":
+                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.Lime;
+                            break;
                         case "BIGCHEST":
                             monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.Yellow;
                             break;
@@ -121,7 +124,7 @@ namespace IG_TableExporter
                             break;
                         case "SANCTUARY":
                             monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightSkyBlue;;
-                            break;
+                            break;                        
                         default:
                             break;
                     }

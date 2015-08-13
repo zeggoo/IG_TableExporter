@@ -43,7 +43,7 @@
     <PublishUrl>D:\HeroDash\Plan\Worksheet\tools\</PublishUrl>
     <InstallUrl />
     <TargetCulture>ko</TargetCulture>
-    <ApplicationVersion>0.5.3.3</ApplicationVersion>
+    <ApplicationVersion>0.5.3.5</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>

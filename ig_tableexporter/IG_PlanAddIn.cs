@@ -52,7 +52,8 @@ namespace IG_TableExporter
         Warning,
         Sanctuary,
         BigChest,
-        BigGold
+        BigGold,
+        TrapChest
     }
 
     public struct MonsterInfoPathVerification
