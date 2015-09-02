@@ -43,7 +43,7 @@
     <PublishUrl>D:\HeroDash\Plan\Worksheet\tools\</PublishUrl>
     <InstallUrl />
     <TargetCulture>ko</TargetCulture>
-    <ApplicationVersion>0.5.3.5</ApplicationVersion>
+    <ApplicationVersion>0.5.3.6</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -294,7 +294,8 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>IG_TableExporter.pfx</ManifestKeyFile>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>F9DFDFA0986176E6FC78C52C7671693160BDDC4F</ManifestCertificateThumbprint>

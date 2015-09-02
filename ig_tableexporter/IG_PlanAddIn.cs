@@ -1095,7 +1095,7 @@ namespace IG_TableExporter
         }
 
         // 노드명이 있을 경우엔 노드명으로 그 외엔 테이블명으로
-        private string GetTableName()
+        internal string GetTableName()
         {
             foreach (Excel.Name name in Globals.IG_PlanAddIn.Application.ActiveWorkbook.Names)
             {
