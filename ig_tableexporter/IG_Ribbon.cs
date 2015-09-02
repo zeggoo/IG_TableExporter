@@ -33,7 +33,12 @@ namespace IG_TableExporter
             saveTableFileDialog.Filter = "JSON Data|*.json";
             saveTableFileDialog.Title = "Export Table";
 
-            saveTableFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(Globals.IG_PlanAddIn.Application.ActiveWorkbook.Name);
+            var tableName = Globals.IG_PlanAddIn.GetTableName();
+            if (String.IsNullOrEmpty(tableName))
+                saveTableFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(Globals.IG_PlanAddIn.Application.ActiveWorkbook.Name);
+            else
+                saveTableFileDialog.FileName = tableName;
+
             saveTableFileDialog.DefaultExt = "json";
             saveTableFileDialog.ShowDialog();
         }
@@ -165,7 +170,6 @@ namespace IG_TableExporter
             List<MonsterInfo> monsterInfo;
             Dictionary<int, string> spriteNames;
             string stageName;
-            int cnt;
 
             Globals.IG_PlanAddIn.InitiateMonsterInfo();
 
