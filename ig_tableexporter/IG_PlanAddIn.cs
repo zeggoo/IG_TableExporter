@@ -190,7 +190,7 @@ namespace IG_TableExporter
 
                         // 컨텐츠ID 체크
                         for (int i = 1; i <= lo.ListColumns.Count; i++)
-                            if (lo.ListColumns.get_Item(i).Name.Equals("contentsID"))
+                            if (lo.ListColumns.get_Item(i).Name.ToUpper().Equals("contentsID".ToUpper()))
                             {
                                 hasContentsID = true;
                                 break;
