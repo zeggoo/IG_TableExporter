@@ -1676,13 +1676,16 @@ namespace IG_TableExporter
             {
                 string type = Properties.Settings.Default.MetaTableSubgroup_Prefix + field;
 
+                // 생성자에서 초기값 설정
+                var defaultValue = subgroups[field].Keys.FirstOrDefault();
+
                 sb.Append(MetaTable.MetaTypeContent[0]);
                 sb.AppendLine();
 
                 sb.Append(
 @"	public	class	" + type + @" : " + Path.GetFileNameWithoutExtension(MetaTable.MetaAbKVTypeName) + @"<int, string, " + type + @">
 	{
-		public " + type + @"() { }
+		public " + type + @"() { " + @"var obj = " + type + @"." + defaultValue + @"; }" + @"
 		protected " + type + @"(string fieldName, int k, string v)
 			: base(fieldName, k, v) {	typeName = """";}"); // 일단 typeName은 빈칸: 입력받는 곳이 없음
                 sb.AppendLine();
