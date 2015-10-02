@@ -206,5 +206,11 @@ FakesAssemblies/
 
 # Visual Studio 6 workspace options file
 *.opt
-*.pdb
-ig_tableexporter/bin/Debug/IG_TableExporter.pdb
+
+# Visual Studio LightSwitch build output
+**/*.HTMLClient/GeneratedArtifacts
+**/*.DesktopClient/GeneratedArtifacts
+**/*.DesktopClient/ModelManifest.xml
+**/*.Server/GeneratedArtifacts
+**/*.Server/ModelManifest.xml
+_Pvt_Extensions

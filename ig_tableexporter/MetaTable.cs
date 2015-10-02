@@ -708,18 +708,29 @@ namespace " + prefix + @"Data
         void Map(Dictionary<string, object> dic);
     }
 
-    public class " + prefix + @"Container<T> where T : " + prefix + @"Object
+    public class " + prefix + @"Container<T> where T : class, " + prefix + @"Object
     {
-        private SortedList<int, T> map = new SortedList<int, T>();
+        private SortedList<int, object> map = new SortedList<int, object>();
 
-        public IList<T> GetList()
+        public List<T> GetList()
         {
-            return map.Values;
+            List<T> list = new List<T>();
+            foreach (T data in map.Values)
+            {
+                list.Add(data);
+            }
+            return list;
         }
 
-        public IDictionary<int, T> GetMap()
+        public Dictionary<int, T> GetMap()
         {
-            return map;
+            Dictionary<int, T> dic = new Dictionary<int, T>();
+            foreach(var data in map)
+            {
+                T _value = data.Value as T;
+                dic.Add(_value.GetIndex(), _value);
+            }
+            return dic;
         }
 
         public void Add(int index, T t)
@@ -732,7 +743,7 @@ namespace " + prefix + @"Data
             T ret = default(T);
             try
             {
-                ret = map[index];
+                ret = map[index] as T;
             }
             catch (Exception)
             {
@@ -847,7 +858,7 @@ namespace " + prefix + @"Data
         }
 #endif//USE_LITJSON
         public static IGContainer<T> LoadMiniJson2GDContainer<T>(Dictionary<string, object> jsonDic, string className) where T : class, IGObject, new()
-        {
+        {        
             IGContainer<T> container = new IGContainer<T>();
             var dicList = jsonDic[className] as List<object>;
             foreach (var d in dicList)
