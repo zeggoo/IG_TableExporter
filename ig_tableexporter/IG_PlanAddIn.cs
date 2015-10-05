@@ -554,7 +554,7 @@ namespace IG_TableExporter
                 int cnt = 0;
                 /*MonsterInfo*/ tmpInfo = new MonsterInfo();
                 while (reader.Read())
-                {
+                {                
                     if (reader.TokenType == JsonToken.PropertyName)
                         switch ((string)reader.Value)
                         {
@@ -562,7 +562,7 @@ namespace IG_TableExporter
                                 if (cnt > 0)
                                     monsterInfos.Add(tmpInfo);
                                 cnt++;
-                                tmpInfo.index = Convert.ToInt32(reader.ReadAsInt32());
+                                tmpInfo.index = Convert.ToInt32(reader.ReadAsInt32());                                
                                 break;
                             case "Stage":
                                 tmpInfo.stage = reader.ReadAsString();
@@ -611,8 +611,11 @@ namespace IG_TableExporter
                                 break;
                             default:
                                 break;
-                        }
+                        }              
                 }
+                // 마지막 인덱스 몬스터 추가
+                if (tmpInfo.index > 0)
+                    monsterInfos.Add(tmpInfo);
             }
             catch (IOException ioe)
             {
