@@ -30,6 +30,7 @@ namespace IG_TableExporter
         public int atk;
         public double speed;
         public double scale;
+        public Color color;
 
         public int GetGold()
         {
@@ -448,6 +449,45 @@ namespace IG_TableExporter
         #endregion
 
         #region 몬스터정보 처리
+        public void RefreshMonsterColor(List<MonsterInfo> monList)
+        {
+            int cnt = 0;
+            int maxRound = GetNoteLength();
+
+            foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
+            {
+                foreach (Excel.ListObject lo in ws.ListObjects)
+                {
+                    if (lo.Name.Length >= Properties.Settings.Default.NotePrefix.Length && lo.Name.Substring(0, Properties.Settings.Default.NotePrefix.Length).Equals(Properties.Settings.Default.NotePrefix))
+                    {
+                        for (int r = 1; r <= maxRound; r++)
+                        {
+                            for (int i = 1; i <= Properties.Settings.Default.NoteMaxSpawn; i++)
+                            {
+                                int spawn = 0;
+                                try
+                                {
+                                    spawn = Convert.ToInt32(lo.DataBodyRange[cnt, lo.ListColumns["Spawn" + i].Index].value2);
+                                }
+                                catch (FormatException)
+                                {
+                                    spawn = 0;
+                                }
+
+                                if (spawn > 0 && r < maxRound)
+                                {
+                                    //lo.DataBodyRange[cnt, lo.ListColumns["Spawn" + i].Index].Interior.Color = System.Drawing.ColorTranslator.ToOle(GetMonsterTypeColor());
+                                }
+                                        
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (cnt <= 0) throw new Exception("테이블명이 정확하지 않습니다.");
+        }
+
         public string GetStageName()
         {
             // 스테이지노트명을 직접 참조하도록 코드 변경됨
@@ -609,6 +649,9 @@ namespace IG_TableExporter
                                 break;
                             case "MonsterScale":
                                 tmpInfo.scale = Convert.ToDouble(reader.ReadAsString()) / Properties.Settings.Default.PermilFactor;
+                                
+                                // 타입/스케일 정보로 색깔값 지정
+                                tmpInfo.color = Globals.IG_PlanAddIn.GetMonsterTypeColor(tmpInfo.type, tmpInfo.scale);
                                 break;
                             default:
                                 break;

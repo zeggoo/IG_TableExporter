@@ -78,7 +78,8 @@ namespace IG_TableExporter
                     }
 
                     // 몬스터 타입별로 색깔입히기
-                    monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Globals.IG_PlanAddIn.GetMonsterTypeColor(info.type, info.scale);
+                    //monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Globals.IG_PlanAddIn.GetMonsterTypeColor(info.type, info.scale);
+                    monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = info.color;
 
                     cnt++;
                 }

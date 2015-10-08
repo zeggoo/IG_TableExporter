@@ -194,6 +194,8 @@ namespace IG_TableExporter
                 // 몬스터데이터 표에 정보 기입하기
                 //cnt = Globals.IG_PlanAddIn.RefreshMonsterInfoTable(monsterInfo, stageName);
 
+                // 스테이지노트의 Spawn 필드를 검색하여 몬스터타입별로 색깔을 새로 지정함
+
                 // TASK PANE 테스트
                 if (monsterInfoTask == null || monsterInfoTask.StageName != stageName)
                 {
