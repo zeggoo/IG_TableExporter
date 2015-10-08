@@ -78,56 +78,8 @@ namespace IG_TableExporter
                     }
 
                     // 몬스터 타입별로 색깔입히기
-                    switch (info.type.ToUpper())
-                    {
-                        case "MONSTER":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightPink;
-                            break;
-                        case "VETERAN":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.Pink;
-                            break;
-                        case "BOSS":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightCoral;
-                            break;
-                        case "OBJECT":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightCyan;
-                            break;
-                        case "WALL":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightBlue;
-                            break;
-                        case "TRAPCHEST":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.Lime;
-                            break;
-                        case "BIGCHEST":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.Yellow;
-                            break;
-                        case "CHEST":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightYellow;
-                            break;
-                        case "ANGEL":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightGreen;
-                            break;
-                        case "DEMON":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightSalmon;
-                            break;
-                        case "GOLD":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.Gold;
-                            break;
-                        case "BIGGOLD":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.Goldenrod;
-                            break;
-                        case "ENDBOX":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightSlateGray;
-                            break;
-                        case "WARNING":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.Purple;
-                            break;
-                        case "SANCTUARY":
-                            monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Color.LightSkyBlue;;
-                            break;                        
-                        default:
-                            break;
-                    }
+                    //monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = Globals.IG_PlanAddIn.GetMonsterTypeColor(info.type, info.scale);
+                    monsterDataGridView.Rows[cnt].DefaultCellStyle.BackColor = info.color;
 
                     cnt++;
                 }

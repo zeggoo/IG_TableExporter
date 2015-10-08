@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Drawing;
 using System.Diagnostics;
 using System.Collections;
 using System.Reflection;
@@ -29,6 +30,7 @@ namespace IG_TableExporter
         public int atk;
         public double speed;
         public double scale;
+        public Color color;
 
         public int GetGold()
         {
@@ -447,6 +449,55 @@ namespace IG_TableExporter
         #endregion
 
         #region 몬스터정보 처리
+        public void RefreshMonsterColor(List<MonsterInfo> monList)
+        {
+            // 몬스터정보 리스트를 인덱스순 dictionary로 변경함
+            Dictionary<long, Color> monDic = new Dictionary<long, Color>();
+            foreach(var info in monList)           
+                if (!monDic.ContainsKey(info.index))
+                    monDic.Add(info.index, info.color);
+
+            int cnt = 0;
+            int maxRound = GetNoteLength();
+
+            foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
+            {
+                foreach (Excel.ListObject lo in ws.ListObjects)
+                {
+                    if (lo.Name.Length >= Properties.Settings.Default.NotePrefix.Length && lo.Name.Substring(0, Properties.Settings.Default.NotePrefix.Length).Equals(Properties.Settings.Default.NotePrefix))
+                    {
+                        for (int r = 1; r <= maxRound; r++)
+                        {
+                            for (int i = 1; i <= Properties.Settings.Default.NoteMaxSpawn; i++)
+                            {
+                                int spawn = 0;
+                                try
+                                {
+                                    spawn = Convert.ToInt32(lo.DataBodyRange[r, lo.ListColumns["Spawn" + i].Index].value2);                                    
+                                }
+                                catch (FormatException)
+                                {
+                                    spawn = 0;
+                                }
+
+                                if (r < maxRound)
+                                {
+                                    if (spawn > 0)
+                                        lo.DataBodyRange[r, lo.ListColumns["Spawn" + i].Index].Interior.Color = System.Drawing.ColorTranslator.ToOle(monDic[spawn]);
+                                    else
+                                        lo.DataBodyRange[r, lo.ListColumns["Spawn" + i].Index].Interior.ColorIndex = 0;
+                                }                                        
+                            }
+
+                            cnt++;
+                        }
+                    }
+                }
+            }
+
+            if (cnt <= 0) throw new Exception("테이블명이 정확하지 않습니다.");
+        }
+
         public string GetStageName()
         {
             // 스테이지노트명을 직접 참조하도록 코드 변경됨
@@ -608,6 +659,9 @@ namespace IG_TableExporter
                                 break;
                             case "MonsterScale":
                                 tmpInfo.scale = Convert.ToDouble(reader.ReadAsString()) / Properties.Settings.Default.PermilFactor;
+                                
+                                // 타입/스케일 정보로 색깔값 지정
+                                tmpInfo.color = Globals.IG_PlanAddIn.GetMonsterTypeColor(tmpInfo.type, tmpInfo.scale);
                                 break;
                             default:
                                 break;
@@ -633,6 +687,65 @@ namespace IG_TableExporter
             }
 
             return monsterInfos;
+        }
+
+        // 몬스터타입에 따른 색깔구분
+        public Color GetMonsterTypeColor(String monType, double monScale = 1.0d)
+        {
+            var color = Color.White;
+
+            switch (monType.ToUpper())
+            {
+                case "MONSTER":
+                    color = Color.LightPink;
+                    break;
+                case "VETERAN":
+                    color = Color.Pink;
+                    break;
+                case "BOSS":
+                    color = Color.LightCoral;
+                    break;
+                case "OBJECT":
+                    color = Color.LightCyan;
+                    break;
+                case "WALL":
+                    color = Color.LightBlue;
+                    break;
+                case "TRAPCHEST":
+                    color = Color.Lime;
+                    break;
+                case "BIGCHEST":
+                    color = Color.Yellow;
+                    break;
+                case "CHEST":
+                    color = Color.LightYellow;
+                    break;
+                case "ANGEL":
+                    color = Color.LightGreen;
+                    break;
+                case "DEMON":
+                    color = Color.LightSalmon;
+                    break;
+                case "GOLD":
+                    color = Color.Gold;
+                    break;
+                case "BIGGOLD":
+                    color = Color.Goldenrod;
+                    break;
+                case "ENDBOX":
+                    color = Color.LightSlateGray;
+                    break;
+                case "WARNING":
+                    color = Color.Purple;
+                    break;
+                case "SANCTUARY":
+                    color = Color.LightSkyBlue;
+                    break;
+                default:
+                    break;
+            }
+
+            return Color.FromArgb((int)(color.A * Math.Min(1.0d, monScale)), color);
         }
 
         // 밸런스문서에서 처리함
