@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.Drawing;
 using System.Diagnostics;
 using System.Collections;
 using System.Reflection;
@@ -633,6 +634,65 @@ namespace IG_TableExporter
             }
 
             return monsterInfos;
+        }
+
+        // 몬스터타입에 따른 색깔구분
+        public Color GetMonsterTypeColor(String monType, double monScale = 1.0d)
+        {
+            var color = Color.White;
+
+            switch (monType.ToUpper())
+            {
+                case "MONSTER":
+                    color = Color.LightPink;
+                    break;
+                case "VETERAN":
+                    color = Color.Pink;
+                    break;
+                case "BOSS":
+                    color = Color.LightCoral;
+                    break;
+                case "OBJECT":
+                    color = Color.LightCyan;
+                    break;
+                case "WALL":
+                    color = Color.LightBlue;
+                    break;
+                case "TRAPCHEST":
+                    color = Color.Lime;
+                    break;
+                case "BIGCHEST":
+                    color = Color.Yellow;
+                    break;
+                case "CHEST":
+                    color = Color.LightYellow;
+                    break;
+                case "ANGEL":
+                    color = Color.LightGreen;
+                    break;
+                case "DEMON":
+                    color = Color.LightSalmon;
+                    break;
+                case "GOLD":
+                    color = Color.Gold;
+                    break;
+                case "BIGGOLD":
+                    color = Color.Goldenrod;
+                    break;
+                case "ENDBOX":
+                    color = Color.LightSlateGray;
+                    break;
+                case "WARNING":
+                    color = Color.Purple;
+                    break;
+                case "SANCTUARY":
+                    color = Color.LightSkyBlue;
+                    break;
+                default:
+                    break;
+            }
+
+            return Color.FromArgb((int)(color.A * Math.Min(1.0f, monScale)), color);
         }
 
         // 밸런스문서에서 처리함
