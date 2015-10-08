@@ -451,6 +451,12 @@ namespace IG_TableExporter
         #region 몬스터정보 처리
         public void RefreshMonsterColor(List<MonsterInfo> monList)
         {
+            // 몬스터정보 리스트를 인덱스순 dictionary로 변경함
+            Dictionary<long, Color> monDic = new Dictionary<long, Color>();
+            foreach(var info in monList)           
+                if (!monDic.ContainsKey(info.index))
+                    monDic.Add(info.index, info.color);
+
             int cnt = 0;
             int maxRound = GetNoteLength();
 
@@ -467,19 +473,23 @@ namespace IG_TableExporter
                                 int spawn = 0;
                                 try
                                 {
-                                    spawn = Convert.ToInt32(lo.DataBodyRange[cnt, lo.ListColumns["Spawn" + i].Index].value2);
+                                    spawn = Convert.ToInt32(lo.DataBodyRange[r, lo.ListColumns["Spawn" + i].Index].value2);                                    
                                 }
                                 catch (FormatException)
                                 {
                                     spawn = 0;
                                 }
 
-                                if (spawn > 0 && r < maxRound)
+                                if (r < maxRound)
                                 {
-                                    //lo.DataBodyRange[cnt, lo.ListColumns["Spawn" + i].Index].Interior.Color = System.Drawing.ColorTranslator.ToOle(GetMonsterTypeColor());
-                                }
-                                        
+                                    if (spawn > 0)
+                                        lo.DataBodyRange[r, lo.ListColumns["Spawn" + i].Index].Interior.Color = System.Drawing.ColorTranslator.ToOle(monDic[spawn]);
+                                    else
+                                        lo.DataBodyRange[r, lo.ListColumns["Spawn" + i].Index].Interior.ColorIndex = 0;
+                                }                                        
                             }
+
+                            cnt++;
                         }
                     }
                 }
@@ -735,7 +745,7 @@ namespace IG_TableExporter
                     break;
             }
 
-            return Color.FromArgb((int)(color.A * Math.Min(1.0f, monScale)), color);
+            return Color.FromArgb((int)(color.A * Math.Min(1.0d, monScale)), color);
         }
 
         // 밸런스문서에서 처리함
