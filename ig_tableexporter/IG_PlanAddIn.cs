@@ -941,8 +941,11 @@ namespace IG_TableExporter
                         for (int r = 1; r <= lo.ListRows.Count; r++)
                         {
                             tmpPath = (string)lo.DataBodyRange[r, lo.ListColumns["Path"].Index].value2;
-                            if (tmpPath != null && tmpPath != "")
+                            if (!String.IsNullOrEmpty(tmpPath))
+                            {
+                                tmpPath = Path.GetFileNameWithoutExtension(tmpPath).ToUpper();
                                 if (resourcePaths.ContainsKey(tmpPath.ToUpper()))
+                                //if (resourcePaths.ContainsKey(Path.GetFileNameWithoutExtension(tmpPath).ToUpper()))
                                 {
                                     lo.DataBodyRange[r, verificationIndex].value2 = resourcePaths[tmpPath.ToUpper()];
                                 }
@@ -954,6 +957,7 @@ namespace IG_TableExporter
                                     //ws.Activate();
                                     //ws.Range[ws.Cells[lo.HeaderRowRange.Row + r, lo.HeaderRowRange.Column + verificationIndex - 1], ws.Cells[lo.HeaderRowRange.Row + r, lo.HeaderRowRange.Column + verificationIndex - 1]].Select();
                                 }
+                            }
                         }
                         if (verificationIndex > 0)
                         {
