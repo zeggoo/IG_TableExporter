@@ -13,7 +13,7 @@ namespace IG_TableExporter
     public partial class MonsterInfoTask : UserControl
     {
         private string stageName;
-        private Dictionary<int, int> monsterIndexs;
+        private Dictionary<long, long> monsterIndexs;
 
         public string StageName
         {
@@ -39,30 +39,30 @@ namespace IG_TableExporter
         }
 
         internal void MonsterInfoRefresh(List<MonsterInfo> monsterInfos, string stage)
-        {
+    {
             int cnt = 0;
 
             monsterDataGridView.Rows.Clear();
-            monsterIndexs = new Dictionary<int, int>();
+            //monsterIndexs = new Dictionary<long, long>();
 
             foreach (MonsterInfo info in monsterInfos)
-                if (info.stage == null || info.stage == "" || info.stage.Trim() == stage.Trim()) 
+                if (info.stage == null || info.stage == "" || info.stage.Trim() == stage.Trim())
                 {
-                    monsterIndexs.Add(cnt, info.index);
+                    //monsterIndexs.Add(cnt, info.index);
                     monsterDataGridView.Rows.Add(new object[9]
-                    {
-                        Convert.ToString(info.index),   
-                        ( Globals.IG_PlanAddIn.MonsterSpritePaths.ContainsKey(info.sprite) ?
-                            Image.FromFile(Globals.IG_PlanAddIn.MonsterSpritePaths[info.sprite]) : null
-                        ),
-                        String.Format("{0:P0}", info.speed),
-                        String.Format("{0:P0}", info.scale),
-                        String.Format("{0:N0}", info.HP),
-                        Convert.ToString(info.atk),                                                  
-                        Convert.ToString(info.type),
-                        String.Format("{0:N0}", info.point),
-                        String.Format("{0:N0}", info.GetGold())
-                    });
+                {
+                    Convert.ToString(info.index), 
+                    ( Globals.IG_PlanAddIn.MonsterSpritePaths.ContainsKey(info.sprite) ?
+                        Image.FromFile(Globals.IG_PlanAddIn.MonsterSpritePaths[info.sprite]) : null
+                    ),
+                    String.Format("{0:P0}", info.speed),
+                    String.Format("{0:P0}", info.scale),
+                    String.Format("{0:N0}", info.HP),
+                    Convert.ToString(info.atk),                                                  
+                    Convert.ToString(info.type),
+                    String.Format("{0:N0}", info.point),
+                    String.Format("{0:N0}", info.GetGold())
+                });
 
                     // 스테이지 전용 몬스터는 볼드체
                     if (info.stage.Trim() == stage.Trim())
