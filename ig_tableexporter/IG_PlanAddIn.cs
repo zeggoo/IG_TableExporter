@@ -840,12 +840,26 @@ namespace IG_TableExporter
 
         private Dictionary<string, string> GetMonsterSpritePaths()
         {
-            Dictionary<string, string> tmpPaths = new Dictionary<string, string>();
-            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(Properties.Settings.Default.MonsterSpritePath);
+            //string[] _Result    = Directory.GetFiles("/assets", "*.png", SearchOption.AllDirectories);
+            //Dictionary<string, string> tmpPaths = new Dictionary<string, string>();
+            //System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(Properties.Settings.Default.MonsterSpritePath);
 
-            GetMonsterSpritePath(di, tmpPaths);
+            //GetMonsterSpritePath(di, tmpPaths);
 
-            return tmpPaths;
+            //return tmpPaths;
+
+            string[] _results = Directory.GetFiles(Properties.Settings.Default.MonsterSpritePath, "*.png", SearchOption.AllDirectories);
+
+            Dictionary<string, string> paths = new Dictionary<string, string>();
+
+            foreach(var result in _results)
+            {
+                if (!paths.ContainsKey(Path.GetFileNameWithoutExtension(result)))
+                    paths.Add(Path.GetFileNameWithoutExtension(result), result);
+            }
+
+            return paths;
+
         }
 
         private void GetMonsterSpritePath(System.IO.DirectoryInfo di, Dictionary<string, string> paths)
@@ -891,6 +905,7 @@ namespace IG_TableExporter
                                 break;
                             }
                         }
+
 
                         // 인덱스 기입
                         if (lastRow <= 0)                                
