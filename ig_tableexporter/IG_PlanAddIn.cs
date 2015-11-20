@@ -55,7 +55,10 @@ namespace IG_TableExporter
         Sanctuary,
         BigChest,
         BigGold,
-        TrapChest
+        TrapChest,
+        BombTop,
+        BombMid,
+        BombBottom
     }
 
     public struct MonsterInfoPathVerification
@@ -740,6 +743,15 @@ namespace IG_TableExporter
                     break;
                 case "SANCTUARY":
                     color = Color.LightSkyBlue;
+                    break;
+                case "BOMBTOP":
+                    color = Color.LightPink;
+                    break;
+                case "BOMBMID":
+                    color = Color.Pink;
+                    break;
+                case "BOMBBOTTOM":
+                    color = Color.DeepPink;
                     break;
                 default:
                     break;
