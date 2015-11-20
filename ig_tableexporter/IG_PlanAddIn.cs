@@ -58,7 +58,8 @@ namespace IG_TableExporter
         TrapChest,
         BombTop,
         BombMid,
-        BombBottom
+        BombBottom,
+        Banner
     }
 
     public struct MonsterInfoPathVerification
@@ -752,6 +753,9 @@ namespace IG_TableExporter
                     break;
                 case "BOMBBOTTOM":
                     color = Color.DeepPink;
+                    break;
+                case "BANNER":
+                    color = Color.Black;
                     break;
                 default:
                     break;
