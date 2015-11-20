@@ -46,7 +46,6 @@ C:\Dropbox\P.Icon\IG_PlanTool\IG_TableExporter\IG_TableExporter\bin\Debug\Newton
 D:\Dropbox\P.Icon\IG_PlanTool\IG_TableExporter\IG_TableExporter\bin\Debug\IG_TableExporter.pfx
 D:\Dropbox\P.Icon\IG_PlanTool\IG_TableExporter\IG_TableExporter\bin\Debug\Newtonsoft.Json.dll
 D:\Dropbox\P.Icon\IG_PlanTool\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.MonsterInfoTask.resources
-D:\GitHub\IG_TableExporter\IG_TableExporter\bin\Debug\IG_TableExporter.pfx
 D:\GitHub\IG_TableExporter\IG_TableExporter\bin\Debug\IG_TableExporter.dll.config
 D:\GitHub\IG_TableExporter\IG_TableExporter\bin\Debug\IG_TableExporter.dll
 D:\GitHub\IG_TableExporter\IG_TableExporter\bin\Debug\IG_TableExporter.pdb
