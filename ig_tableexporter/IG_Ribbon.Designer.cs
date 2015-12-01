@@ -37,9 +37,19 @@
             this.IG_Tab = this.Factory.CreateRibbonTab();
             this.IG_TableGroup = this.Factory.CreateRibbonGroup();
             this.branchComboBox = this.Factory.CreateRibbonComboBox();
+            this.btnCheckBranch = this.Factory.CreateRibbonButton();
+            this.btnExportMonsterTable = this.Factory.CreateRibbonButton();
+            this.btnExportTable = this.Factory.CreateRibbonButton();
             this.IG_MetaTableGroup = this.Factory.CreateRibbonGroup();
+            this.btnSetMetaTablePathProperties = this.Factory.CreateRibbonButton();
+            this.btnExportMetaTable = this.Factory.CreateRibbonButton();
             this.IG_ResourcePathGroup = this.Factory.CreateRibbonGroup();
+            this.btnSetResourcePathProperties = this.Factory.CreateRibbonButton();
+            this.btnVerifyResourcePaths = this.Factory.CreateRibbonButton();
             this.IG_StageNoteGroup = this.Factory.CreateRibbonGroup();
+            this.btnSetNotePathProperties = this.Factory.CreateRibbonButton();
+            this.btnVerifyMonsters = this.Factory.CreateRibbonButton();
+            this.btnExportStageNote = this.Factory.CreateRibbonButton();
             this.saveTableFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.saveNoteFileDialog = new System.Windows.Forms.SaveFileDialog();
             this.monsterTablePathFileDialog = new System.Windows.Forms.OpenFileDialog();
@@ -49,16 +59,7 @@
             this.assetPathBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.metaTablePathBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.tablePathBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
-            this.btnCheckBranch = this.Factory.CreateRibbonButton();
-            this.btnExportMonsterTable = this.Factory.CreateRibbonButton();
-            this.btnExportTable = this.Factory.CreateRibbonButton();
-            this.btnSetMetaTablePathProperties = this.Factory.CreateRibbonButton();
-            this.btnExportMetaTable = this.Factory.CreateRibbonButton();
-            this.btnSetResourcePathProperties = this.Factory.CreateRibbonButton();
-            this.btnVerifyResourcePaths = this.Factory.CreateRibbonButton();
-            this.btnSetNotePathProperties = this.Factory.CreateRibbonButton();
-            this.btnVerifyMonsters = this.Factory.CreateRibbonButton();
-            this.btnExportStageNote = this.Factory.CreateRibbonButton();
+            this.monsterTablePathBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.IG_Tab.SuspendLayout();
             this.IG_TableGroup.SuspendLayout();
             this.IG_MetaTableGroup.SuspendLayout();
@@ -91,12 +92,56 @@
             this.branchComboBox.Text = null;
             this.branchComboBox.TextChanged += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.branchComboBox_TextChanged);
             // 
+            // btnCheckBranch
+            // 
+            this.btnCheckBranch.Image = global::IG_TableExporter.Properties.Resources._1424878236_view_refresh_512;
+            this.btnCheckBranch.Label = "브랜치 확인";
+            this.btnCheckBranch.Name = "btnCheckBranch";
+            this.btnCheckBranch.ShowImage = true;
+            this.btnCheckBranch.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCheckBranch_Click);
+            // 
+            // btnExportMonsterTable
+            // 
+            this.btnExportMonsterTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnExportMonsterTable.Image = global::IG_TableExporter.Properties.Resources.CORING;
+            this.btnExportMonsterTable.Label = "몬스터테이블 추출";
+            this.btnExportMonsterTable.Name = "btnExportMonsterTable";
+            this.btnExportMonsterTable.ShowImage = true;
+            this.btnExportMonsterTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnExportMonsterTable_Click);
+            // 
+            // btnExportTable
+            // 
+            this.btnExportTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnExportTable.Image = global::IG_TableExporter.Properties.Resources._1424876079_x_office_spreadsheet_512;
+            this.btnExportTable.Label = "테이블 추출";
+            this.btnExportTable.Name = "btnExportTable";
+            this.btnExportTable.ShowImage = true;
+            this.btnExportTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnExport_Click);
+            // 
             // IG_MetaTableGroup
             // 
             this.IG_MetaTableGroup.Items.Add(this.btnSetMetaTablePathProperties);
             this.IG_MetaTableGroup.Items.Add(this.btnExportMetaTable);
             this.IG_MetaTableGroup.Label = "메타테이블";
             this.IG_MetaTableGroup.Name = "IG_MetaTableGroup";
+            // 
+            // btnSetMetaTablePathProperties
+            // 
+            this.btnSetMetaTablePathProperties.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnSetMetaTablePathProperties.Image = global::IG_TableExporter.Properties.Resources._1426432298_Settings_5_512;
+            this.btnSetMetaTablePathProperties.Label = "경로 설정";
+            this.btnSetMetaTablePathProperties.Name = "btnSetMetaTablePathProperties";
+            this.btnSetMetaTablePathProperties.ShowImage = true;
+            this.btnSetMetaTablePathProperties.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSetMetaTablePathProperties_Click);
+            // 
+            // btnExportMetaTable
+            // 
+            this.btnExportMetaTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnExportMetaTable.Image = global::IG_TableExporter.Properties.Resources._1426247862_19_512;
+            this.btnExportMetaTable.Label = "테이블 메타정보";
+            this.btnExportMetaTable.Name = "btnExportMetaTable";
+            this.btnExportMetaTable.ShowImage = true;
+            this.btnExportMetaTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnExportMetaTable_Click);
             // 
             // IG_ResourcePathGroup
             // 
@@ -105,6 +150,24 @@
             this.IG_ResourcePathGroup.Label = "리소스";
             this.IG_ResourcePathGroup.Name = "IG_ResourcePathGroup";
             // 
+            // btnSetResourcePathProperties
+            // 
+            this.btnSetResourcePathProperties.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnSetResourcePathProperties.Image = global::IG_TableExporter.Properties.Resources._1425331429_wrench_5121;
+            this.btnSetResourcePathProperties.Label = "경로 설정";
+            this.btnSetResourcePathProperties.Name = "btnSetResourcePathProperties";
+            this.btnSetResourcePathProperties.ShowImage = true;
+            this.btnSetResourcePathProperties.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSetResourcePathProperties_Click);
+            // 
+            // btnVerifyResourcePaths
+            // 
+            this.btnVerifyResourcePaths.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnVerifyResourcePaths.Image = global::IG_TableExporter.Properties.Resources._1425315321_11_512;
+            this.btnVerifyResourcePaths.Label = "리소스 검증";
+            this.btnVerifyResourcePaths.Name = "btnVerifyResourcePaths";
+            this.btnVerifyResourcePaths.ShowImage = true;
+            this.btnVerifyResourcePaths.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnVerifyResourcePaths_Click);
+            // 
             // IG_StageNoteGroup
             // 
             this.IG_StageNoteGroup.Items.Add(this.btnSetNotePathProperties);
@@ -112,6 +175,33 @@
             this.IG_StageNoteGroup.Items.Add(this.btnExportStageNote);
             this.IG_StageNoteGroup.Label = "스테이지 노트";
             this.IG_StageNoteGroup.Name = "IG_StageNoteGroup";
+            // 
+            // btnSetNotePathProperties
+            // 
+            this.btnSetNotePathProperties.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnSetNotePathProperties.Image = global::IG_TableExporter.Properties.Resources._1426247587_config;
+            this.btnSetNotePathProperties.Label = "경로 설정";
+            this.btnSetNotePathProperties.Name = "btnSetNotePathProperties";
+            this.btnSetNotePathProperties.ShowImage = true;
+            this.btnSetNotePathProperties.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSetPathProperties_Click);
+            // 
+            // btnVerifyMonsters
+            // 
+            this.btnVerifyMonsters.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnVerifyMonsters.Image = global::IG_TableExporter.Properties.Resources._1424895247_frankenstein_monster_icon;
+            this.btnVerifyMonsters.Label = "몬스터 데이터";
+            this.btnVerifyMonsters.Name = "btnVerifyMonsters";
+            this.btnVerifyMonsters.ShowImage = true;
+            this.btnVerifyMonsters.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnVerifyMonsters_Click);
+            // 
+            // btnExportStageNote
+            // 
+            this.btnExportStageNote.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
+            this.btnExportStageNote.Image = global::IG_TableExporter.Properties.Resources._1424876076_accessories_text_editor_512;
+            this.btnExportStageNote.Label = "노트 추출";
+            this.btnExportStageNote.Name = "btnExportStageNote";
+            this.btnExportStageNote.ShowImage = true;
+            this.btnExportStageNote.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnExportStageNote_Click);
             // 
             // saveTableFileDialog
             // 
@@ -161,94 +251,10 @@
             // 
             this.tablePathBrowserDialog.Description = "몬스터테이블이 저장될 폴더를 지정하세요";
             // 
-            // btnCheckBranch
+            // monsterTablePathBrowserDialog
             // 
-            this.btnCheckBranch.Image = global::IG_TableExporter.Properties.Resources._1424878236_view_refresh_512;
-            this.btnCheckBranch.Label = "브랜치 확인";
-            this.btnCheckBranch.Name = "btnCheckBranch";
-            this.btnCheckBranch.ShowImage = true;
-            this.btnCheckBranch.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnCheckBranch_Click);
-            // 
-            // btnExportMonsterTable
-            // 
-            this.btnExportMonsterTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnExportMonsterTable.Image = global::IG_TableExporter.Properties.Resources.CORING;
-            this.btnExportMonsterTable.Label = "몬스터테이블 추출";
-            this.btnExportMonsterTable.Name = "btnExportMonsterTable";
-            this.btnExportMonsterTable.ShowImage = true;
-            this.btnExportMonsterTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnExportMonsterTable_Click);
-            // 
-            // btnExportTable
-            // 
-            this.btnExportTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnExportTable.Image = global::IG_TableExporter.Properties.Resources._1424876079_x_office_spreadsheet_512;
-            this.btnExportTable.Label = "테이블 추출";
-            this.btnExportTable.Name = "btnExportTable";
-            this.btnExportTable.ShowImage = true;
-            this.btnExportTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnExport_Click);
-            // 
-            // btnSetMetaTablePathProperties
-            // 
-            this.btnSetMetaTablePathProperties.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnSetMetaTablePathProperties.Image = global::IG_TableExporter.Properties.Resources._1426432298_Settings_5_512;
-            this.btnSetMetaTablePathProperties.Label = "경로 설정";
-            this.btnSetMetaTablePathProperties.Name = "btnSetMetaTablePathProperties";
-            this.btnSetMetaTablePathProperties.ShowImage = true;
-            this.btnSetMetaTablePathProperties.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSetMetaTablePathProperties_Click);
-            // 
-            // btnExportMetaTable
-            // 
-            this.btnExportMetaTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnExportMetaTable.Image = global::IG_TableExporter.Properties.Resources._1426247862_19_512;
-            this.btnExportMetaTable.Label = "테이블 메타정보";
-            this.btnExportMetaTable.Name = "btnExportMetaTable";
-            this.btnExportMetaTable.ShowImage = true;
-            this.btnExportMetaTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnExportMetaTable_Click);
-            // 
-            // btnSetResourcePathProperties
-            // 
-            this.btnSetResourcePathProperties.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnSetResourcePathProperties.Image = global::IG_TableExporter.Properties.Resources._1425331429_wrench_5121;
-            this.btnSetResourcePathProperties.Label = "경로 설정";
-            this.btnSetResourcePathProperties.Name = "btnSetResourcePathProperties";
-            this.btnSetResourcePathProperties.ShowImage = true;
-            this.btnSetResourcePathProperties.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSetResourcePathProperties_Click);
-            // 
-            // btnVerifyResourcePaths
-            // 
-            this.btnVerifyResourcePaths.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnVerifyResourcePaths.Image = global::IG_TableExporter.Properties.Resources._1425315321_11_512;
-            this.btnVerifyResourcePaths.Label = "리소스 검증";
-            this.btnVerifyResourcePaths.Name = "btnVerifyResourcePaths";
-            this.btnVerifyResourcePaths.ShowImage = true;
-            this.btnVerifyResourcePaths.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnVerifyResourcePaths_Click);
-            // 
-            // btnSetNotePathProperties
-            // 
-            this.btnSetNotePathProperties.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnSetNotePathProperties.Image = global::IG_TableExporter.Properties.Resources._1426247587_config;
-            this.btnSetNotePathProperties.Label = "경로 설정";
-            this.btnSetNotePathProperties.Name = "btnSetNotePathProperties";
-            this.btnSetNotePathProperties.ShowImage = true;
-            this.btnSetNotePathProperties.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnSetPathProperties_Click);
-            // 
-            // btnVerifyMonsters
-            // 
-            this.btnVerifyMonsters.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnVerifyMonsters.Image = global::IG_TableExporter.Properties.Resources._1424895247_frankenstein_monster_icon;
-            this.btnVerifyMonsters.Label = "몬스터 데이터";
-            this.btnVerifyMonsters.Name = "btnVerifyMonsters";
-            this.btnVerifyMonsters.ShowImage = true;
-            this.btnVerifyMonsters.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnVerifyMonsters_Click);
-            // 
-            // btnExportStageNote
-            // 
-            this.btnExportStageNote.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnExportStageNote.Image = global::IG_TableExporter.Properties.Resources._1424876076_accessories_text_editor_512;
-            this.btnExportStageNote.Label = "노트 추출";
-            this.btnExportStageNote.Name = "btnExportStageNote";
-            this.btnExportStageNote.ShowImage = true;
-            this.btnExportStageNote.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnExportStageNote_Click);
+            this.monsterTablePathBrowserDialog.Description = "몬스터테이블이 저장된 폴더를 지정하세요";
+            this.monsterTablePathBrowserDialog.ShowNewFolderButton = false;
             // 
             // IG_Ribbon
             // 
@@ -296,6 +302,7 @@
         private System.Windows.Forms.FolderBrowserDialog metaTablePathBrowserDialog;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnExportMonsterTable;
         private System.Windows.Forms.FolderBrowserDialog tablePathBrowserDialog;
+        private System.Windows.Forms.FolderBrowserDialog monsterTablePathBrowserDialog;
     }
 
     partial class ThisRibbonCollection

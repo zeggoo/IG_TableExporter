@@ -379,5 +379,14 @@ namespace IG_TableExporter.Properties {
                 return ((int)(this["EndboxIndex"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MonsterTable")]
+        public string MonsterTableExportName {
+            get {
+                return ((string)(this["MonsterTableExportName"]));
+            }
+        }
     }
 }

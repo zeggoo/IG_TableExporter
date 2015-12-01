@@ -594,87 +594,17 @@ namespace IG_TableExporter
             return spriteNames;
         }
 
-        public List<MonsterInfo> GetMonsterInfo(Dictionary<int, string> spriteNames)
+        public List<MonsterInfo> GetMonsterInfos(string stageName, Dictionary<int, string> spriteNames)
         {
             List<MonsterInfo> monsterInfos = new List<MonsterInfo>();
 
-            JsonTextReader reader;
-            MonsterInfo tmpInfo;
-
-            // 몬스터 데이터 읽어오기
             try
             {
-                string monsterTable = File.ReadAllText(Properties.Settings.Default.MonsterTablePath);
-                /*JsonTextReader*/ reader = new JsonTextReader(new StringReader(monsterTable));
+                // 스테이지몬스터 정보불러오기
+                GetMonsterInfo(stageName, spriteNames, monsterInfos);
 
-                int cnt = 0;
-                /*MonsterInfo*/ tmpInfo = new MonsterInfo();
-                while (reader.Read())
-                {                
-                    if (reader.TokenType == JsonToken.PropertyName)
-                        switch ((string)reader.Value)
-                        {
-                            case "Index":
-                                if (cnt > 0)
-                                    monsterInfos.Add(tmpInfo);
-                                cnt++;
-                                tmpInfo.index = Convert.ToInt32(reader.ReadAsInt32());                                
-                                break;
-                            case "Stage":
-                                tmpInfo.stage = reader.ReadAsString();
-                                break;
-                            case "Type":
-                                try
-                                {
-                                    tmpInfo.type = //reader.ReadAsString();
-                                    Enum.GetName(typeof(MonsterType), Convert.ToInt32(reader.ReadAsInt32()));
-                                }
-                                catch(ArgumentException)
-                                {
-                                    tmpInfo.type = "NONE";
-                                }
-                                break;
-                            case "Monster_Sprite":
-                                int tmpIndex = Convert.ToInt32(reader.ReadAsInt32());
-                                if (spriteNames.ContainsKey(tmpIndex))
-                                    tmpInfo.sprite = spriteNames[tmpIndex];
-                                else
-                                    tmpInfo.sprite = "";
-                                break;
-                            case "MonsterExp":
-                                tmpInfo.exp = Convert.ToInt32(reader.ReadAsInt32());
-                                break;
-                            case "MonsterPoint":
-                                tmpInfo.point = Convert.ToInt32(reader.ReadAsInt32());
-                                break;
-                            case "MonsterMinGold":
-                                tmpInfo.goldMin = Convert.ToInt32(reader.ReadAsInt32());
-                                break;
-                            case "MonsterMaxGold":
-                                tmpInfo.goldMax = Convert.ToInt32(reader.ReadAsInt32());
-                                break;
-                            case "MonsterHP":
-                                tmpInfo.HP = Convert.ToInt32(reader.ReadAsInt32());
-                                break;
-                            case "MonsterPAtk":
-                                tmpInfo.atk = Convert.ToInt32(reader.ReadAsInt32());
-                                break;
-                            case "Speed":
-                                tmpInfo.speed = Convert.ToDouble(reader.ReadAsString()) / Properties.Settings.Default.PermilFactor;
-                                break;
-                            case "MonsterScale":
-                                tmpInfo.scale = Convert.ToDouble(reader.ReadAsString()) / Properties.Settings.Default.PermilFactor;
-                                
-                                // 타입/스케일 정보로 색깔값 지정
-                                tmpInfo.color = Globals.IG_PlanAddIn.GetMonsterTypeColor(tmpInfo.type, tmpInfo.scale);
-                                break;
-                            default:
-                                break;
-                        }              
-                }
-                // 마지막 인덱스 몬스터 추가
-                if (tmpInfo.index > 0)
-                    monsterInfos.Add(tmpInfo);
+                // 공통몬스터 정보불러오기
+                GetMonsterInfo("Common", spriteNames, monsterInfos);
             }
             catch (IOException ioe)
             {
@@ -692,6 +622,89 @@ namespace IG_TableExporter
             }
 
             return monsterInfos;
+        }
+
+        private void GetMonsterInfo(string stage, Dictionary<int, string> spriteNames, List<MonsterInfo> monsterInfos)
+        {
+
+            JsonTextReader reader;
+            MonsterInfo tmpInfo;
+
+            // 몬스터 데이터 읽어오기
+            string monsterTable = File.ReadAllText(Path.Combine(Properties.Settings.Default.MonsterTablePath, Properties.Settings.Default.MonsterTableExportName + "_" + stage + ".json"));
+            /*JsonTextReader*/
+            reader = new JsonTextReader(new StringReader(monsterTable));
+
+            int cnt = 0;
+            /*MonsterInfo*/
+            tmpInfo = new MonsterInfo();
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonToken.PropertyName)
+                    switch ((string)reader.Value)
+                    {
+                        case "Index":
+                            if (cnt > 0)
+                                monsterInfos.Add(tmpInfo);
+                            cnt++;
+                            tmpInfo.index = Convert.ToInt32(reader.ReadAsInt32());
+                            break;
+                        case "Stage":
+                            tmpInfo.stage = reader.ReadAsString();
+                            break;
+                        case "Type":
+                            try
+                            {
+                                tmpInfo.type = //reader.ReadAsString();
+                                Enum.GetName(typeof(MonsterType), Convert.ToInt32(reader.ReadAsInt32()));
+                            }
+                            catch (ArgumentException)
+                            {
+                                tmpInfo.type = "NONE";
+                            }
+                            break;
+                        case "Monster_Sprite":
+                            int tmpIndex = Convert.ToInt32(reader.ReadAsInt32());
+                            if (spriteNames.ContainsKey(tmpIndex))
+                                tmpInfo.sprite = spriteNames[tmpIndex];
+                            else
+                                tmpInfo.sprite = "";
+                            break;
+                        case "MonsterExp":
+                            tmpInfo.exp = Convert.ToInt32(reader.ReadAsInt32());
+                            break;
+                        case "MonsterPoint":
+                            tmpInfo.point = Convert.ToInt32(reader.ReadAsInt32());
+                            break;
+                        case "MonsterMinGold":
+                            tmpInfo.goldMin = Convert.ToInt32(reader.ReadAsInt32());
+                            break;
+                        case "MonsterMaxGold":
+                            tmpInfo.goldMax = Convert.ToInt32(reader.ReadAsInt32());
+                            break;
+                        case "MonsterHP":
+                            tmpInfo.HP = Convert.ToInt32(reader.ReadAsInt32());
+                            break;
+                        case "MonsterPAtk":
+                            tmpInfo.atk = Convert.ToInt32(reader.ReadAsInt32());
+                            break;
+                        case "Speed":
+                            tmpInfo.speed = Convert.ToDouble(reader.ReadAsString()) / Properties.Settings.Default.PermilFactor;
+                            break;
+                        case "MonsterScale":
+                            tmpInfo.scale = Convert.ToDouble(reader.ReadAsString()) / Properties.Settings.Default.PermilFactor;
+
+                            // 타입/스케일 정보로 색깔값 지정
+                            tmpInfo.color = Globals.IG_PlanAddIn.GetMonsterTypeColor(tmpInfo.type, tmpInfo.scale);
+                            break;
+                        default:
+                            break;
+                    }
+            }
+            // 마지막 인덱스 몬스터 추가
+            if (tmpInfo.index > 0)
+                monsterInfos.Add(tmpInfo);
+            
         }
 
         // 몬스터타입에 따른 색깔구분
@@ -756,7 +769,7 @@ namespace IG_TableExporter
                     color = Color.DeepPink;
                     break;
                 case "BANNER":
-                    color = Color.Black;
+                    color = Color.DarkGray;;
                     break;
                 default:
                     break;
