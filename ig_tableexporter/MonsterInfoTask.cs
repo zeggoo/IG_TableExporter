@@ -49,11 +49,12 @@ namespace IG_TableExporter
                 if (info.stage == null || info.stage == "" || info.stage.Trim() == stage.Trim())
                 {
                     //monsterIndexs.Add(cnt, info.index);
+
                     monsterDataGridView.Rows.Add(new object[9]
                 {
                     Convert.ToString(info.index), 
                     ( Globals.IG_PlanAddIn.MonsterSpritePaths.ContainsKey(info.sprite) ?
-                        Image.FromFile(Globals.IG_PlanAddIn.MonsterSpritePaths[info.sprite]) : null
+                        Image.FromFile(Globals.IG_PlanAddIn.MonsterSpritePaths[info.sprite]) : null                        
                     ),
                     String.Format("{0:P0}", info.speed),
                     String.Format("{0:P0}", info.scale),

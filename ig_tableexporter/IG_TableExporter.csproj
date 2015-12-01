@@ -43,7 +43,7 @@
     <PublishUrl>D:\HeroDash\Plan\Worksheet\tools\</PublishUrl>
     <InstallUrl />
     <TargetCulture>ko</TargetCulture>
-    <ApplicationVersion>0.5.5.3</ApplicationVersion>
+    <ApplicationVersion>0.5.5.6</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -222,9 +222,8 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.config" />
-    <None Include="IG_TableExporter.pfx">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="IG_TableExporter_Key.pfx" />
+    <None Include="IG_TableExporter_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -294,11 +293,10 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>IG_TableExporter_Key.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>F9DFDFA0986176E6FC78C52C7671693160BDDC4F</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>AC68AC134A21F9336D400DEAD1A434566D900EDE</ManifestCertificateThumbprint>
   </PropertyGroup>
   <!-- Include the build rules for a C# project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
