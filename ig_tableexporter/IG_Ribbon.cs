@@ -452,7 +452,7 @@ namespace IG_TableExporter
 
             List<string> fileNames = new List<string>();
 
-            Array.ForEach(stages, delegate(string stage) { fileNames.Add(Path.Combine(Properties.Settings.Default.TablePath, Properties.Settings.Default.MonsterTableExportName + " _ " + stage + ".json")); });
+            Array.ForEach(stages, delegate(string stage) { fileNames.Add(Path.Combine(Properties.Settings.Default.TablePath, Properties.Settings.Default.MonsterTableExportName + "_" + stage + ".json")); });
 
             // 일단 패스설정부터
             setTablePathProperties();
