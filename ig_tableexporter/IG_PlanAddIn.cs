@@ -339,6 +339,7 @@ namespace IG_TableExporter
                             if (hasContentsID == false || IsValidContentsId(lo.DataBodyRange[r, lo.ListColumns["contentsID"].Index].value2))
                             {
                                 string stage = Convert.ToString(lo.DataBodyRange[r, lo.ListColumns["Stage"].Index].value2);
+
                                 if (String.IsNullOrWhiteSpace(stage)) stage = Properties.Settings.Default.MonsterTableDefaultStageName;
 
                                 if (!tables.ContainsKey(stage))

@@ -23,6 +23,7 @@ namespace IG_TableExporter
         {
             branchLoaded = false;
             btnExportTable.Enabled = false;
+            btnExportMonsterTable.Enabled = false;
             btnExportMetaTable.Enabled = false;
             //IG_TableGroup.Label = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
             branch = null;
@@ -67,6 +68,7 @@ namespace IG_TableExporter
         private void branchComboBox_TextChanged(object sender, RibbonControlEventArgs e)
         {
             btnExport_Refresh();
+            btnExportMonsterTable_Refresh();
             btnExportMetaTable_Refresh();
             branch = branchComboBox.Text;
         }
@@ -101,6 +103,7 @@ namespace IG_TableExporter
             finally
             {
                 btnExport_Refresh();
+                btnExportMonsterTable_Refresh();
                 btnExportMetaTable_Refresh();
             }
         }
@@ -111,6 +114,14 @@ namespace IG_TableExporter
                 btnExportTable.Enabled = true;
             else
                 btnExportTable.Enabled = false;
+        }
+
+        private void btnExportMonsterTable_Refresh()
+        {
+            if (branchLoaded && Globals.IG_PlanAddIn.BranchList.Contains(branchComboBox.Text))
+                btnExportMonsterTable.Enabled = true;
+            else
+                btnExportMonsterTable.Enabled = false;
         }
 
         private void btnExportMetaTable_Refresh()
@@ -428,7 +439,11 @@ namespace IG_TableExporter
 
             List<string> fileNames = new List<string>();
             
-            Array.ForEach(stages, delegate(string stage) { fileNames.Add(Path.Combine(Properties.Settings.Default.TablePath, Properties.Settings.Default.MonsterTableName + "_" + stage + ".json")); });
+            //Array.ForEach(stages, delegate(string stage) { fileNames.Add(Path.Combine(Properties.Settings.Default.TablePath, Properties.Settings.Default.MonsterTableName + "_" + stage + ".json")); });
+            Array.ForEach(stages, delegate(string stage) { fileNames.Add(Path.Combine(Properties.Settings.Default.TablePath, "MonsterTable_" + stage + ".json")); });
+
+            // 일단 패스설정부터
+            setTablePathProperties();
 
             try
             {

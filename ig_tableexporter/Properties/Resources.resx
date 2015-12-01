@@ -121,14 +121,17 @@
   <data name="1426247587_config" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1426247587_config.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="1425331429_wrench-5121" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1425331429_wrench-5121.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="1424876076_accessories-text-editor-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1424876076_accessories-text-editor-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="1425331429_wrench-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1425331429_wrench-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="1432292690_orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1432292690_orange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="1424876079_x-office-spreadsheet-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1424876079_x-office-spreadsheet-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="1424878236_view-refresh-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1424878236_view-refresh-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -136,8 +139,8 @@
   <data name="1426247862_19-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1426247862_19-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="1424876079_x-office-spreadsheet-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1424876079_x-office-spreadsheet-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="1425331429_wrench-5121" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\1425331429_wrench-5121.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="1425315321_11-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1425315321_11-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -148,7 +151,7 @@
   <data name="1426432298_Settings-5-512" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\1426432298_Settings-5-512.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="1432292690_orange" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\1432292690_orange.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="CORING" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\CORING.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
