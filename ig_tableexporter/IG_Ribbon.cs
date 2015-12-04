@@ -23,6 +23,7 @@ namespace IG_TableExporter
         {
             branchLoaded = false;
             btnExportTable.Enabled = false;
+            btnExportMonsterTable.Enabled = false;
             btnExportMetaTable.Enabled = false;
             //IG_TableGroup.Label = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
             branch = null;
@@ -67,6 +68,7 @@ namespace IG_TableExporter
         private void branchComboBox_TextChanged(object sender, RibbonControlEventArgs e)
         {
             btnExport_Refresh();
+            btnExportMonsterTable_Refresh();
             btnExportMetaTable_Refresh();
             branch = branchComboBox.Text;
         }
@@ -101,6 +103,7 @@ namespace IG_TableExporter
             finally
             {
                 btnExport_Refresh();
+                btnExportMonsterTable_Refresh();
                 btnExportMetaTable_Refresh();
             }
         }
@@ -111,6 +114,14 @@ namespace IG_TableExporter
                 btnExportTable.Enabled = true;
             else
                 btnExportTable.Enabled = false;
+        }
+
+        private void btnExportMonsterTable_Refresh()
+        {
+            if (branchLoaded && Globals.IG_PlanAddIn.BranchList.Contains(branchComboBox.Text))
+                btnExportMonsterTable.Enabled = true;
+            else
+                btnExportMonsterTable.Enabled = false;
         }
 
         private void btnExportMetaTable_Refresh()
@@ -188,7 +199,7 @@ namespace IG_TableExporter
                 spriteNames = Globals.IG_PlanAddIn.GetMonsterSprite();
                 
                 // 몬스터 데이터 불러오기                
-                monsterInfo = Globals.IG_PlanAddIn.GetMonsterInfo(spriteNames);
+                monsterInfo = Globals.IG_PlanAddIn.GetMonsterInfos(stageName, spriteNames);
                 
                 // 밸런스문서에서 처리함
                 // 몬스터데이터 표에 정보 기입하기
@@ -287,7 +298,7 @@ namespace IG_TableExporter
             Properties.Settings.Default.ResourcePathTablePath = resourcePathTablePathFileDialog.FileName;
             Globals.IG_PlanAddIn.mInfoPath.resourcePathTable = true;
         }
-
+        
         private void stageTableFileDialog_FileOk(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Properties.Settings.Default.StageTablePath = stageTableFileDialog.FileName;
@@ -310,13 +321,21 @@ namespace IG_TableExporter
 
         private void setMonsterPathProperties()
         {
+            //if (!Globals.IG_PlanAddIn.mInfoPath.monsterTable)
+            //{
+            //    monsterTablePathFileDialog.Filter = "JSON Data|*.json";
+            //    monsterTablePathFileDialog.Title = "Monster Table";
+            //    monsterTablePathFileDialog.FileName = "MonsterTable";
+            //    monsterTablePathFileDialog.DefaultExt = "json";
+            //    monsterTablePathFileDialog.ShowDialog();
+            //}
+
+            // 쪼개진 몬스터테이블로 인해 테이블 대신 폴더를 지정함
             if (!Globals.IG_PlanAddIn.mInfoPath.monsterTable)
             {
-                monsterTablePathFileDialog.Filter = "JSON Data|*.json";
-                monsterTablePathFileDialog.Title = "Monster Table";
-                monsterTablePathFileDialog.FileName = "MonsterTable";
-                monsterTablePathFileDialog.DefaultExt = "json";
-                monsterTablePathFileDialog.ShowDialog();
+                monsterTablePathBrowserDialog.ShowDialog();
+                Properties.Settings.Default.MonsterTablePath = monsterTablePathBrowserDialog.SelectedPath;
+                Globals.IG_PlanAddIn.mInfoPath.monsterTable = true;
             }
 
             if (!Globals.IG_PlanAddIn.mInfoPath.resourcePathTable)
@@ -349,6 +368,11 @@ namespace IG_TableExporter
         {
             assetPathBrowserDialog.ShowDialog();
             Properties.Settings.Default.ResourceAssetPath = assetPathBrowserDialog.SelectedPath;
+        }
+
+        private void setMonsterTablePathProperties()
+        {
+            setMonsterPathProperties();
         }
 
         private void setMetaTablePathProperties()
@@ -427,8 +451,16 @@ namespace IG_TableExporter
             }
 
             List<string> fileNames = new List<string>();
-            
-            Array.ForEach(stages, delegate(string stage) { fileNames.Add(Path.Combine(Properties.Settings.Default.TablePath, Properties.Settings.Default.MonsterTableName + "_" + stage + ".json")); });
+
+            Array.ForEach(stages, delegate(string stage) { 
+                if (stage == "Common")
+                    fileNames.Add(Path.Combine(Properties.Settings.Default.TablePath, Properties.Settings.Default.MonsterTableExportName + "_" + stage + ".json"));
+                else
+                    fileNames.Add(Path.Combine(Properties.Settings.Default.TablePath, Properties.Settings.Default.StageMonsterTablePath, Properties.Settings.Default.MonsterTableExportName + "_" + stage + ".json"));
+            });
+
+            // 일단 패스설정부터
+            setTablePathProperties();
 
             try
             {

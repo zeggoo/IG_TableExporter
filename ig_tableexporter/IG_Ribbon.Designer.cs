@@ -59,6 +59,7 @@
             this.assetPathBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.metaTablePathBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.tablePathBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
+            this.monsterTablePathBrowserDialog = new System.Windows.Forms.FolderBrowserDialog();
             this.IG_Tab.SuspendLayout();
             this.IG_TableGroup.SuspendLayout();
             this.IG_MetaTableGroup.SuspendLayout();
@@ -102,11 +103,10 @@
             // btnExportMonsterTable
             // 
             this.btnExportMonsterTable.ControlSize = Microsoft.Office.Core.RibbonControlSize.RibbonControlSizeLarge;
-            this.btnExportMonsterTable.Image = global::IG_TableExporter.Properties.Resources._1432292690_orange;
+            this.btnExportMonsterTable.Image = global::IG_TableExporter.Properties.Resources.CORING;
             this.btnExportMonsterTable.Label = "몬스터테이블 추출";
             this.btnExportMonsterTable.Name = "btnExportMonsterTable";
             this.btnExportMonsterTable.ShowImage = true;
-            this.btnExportMonsterTable.Visible = false;
             this.btnExportMonsterTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnExportMonsterTable_Click);
             // 
             // btnExportTable
@@ -251,6 +251,11 @@
             // 
             this.tablePathBrowserDialog.Description = "몬스터테이블이 저장될 폴더를 지정하세요";
             // 
+            // monsterTablePathBrowserDialog
+            // 
+            this.monsterTablePathBrowserDialog.Description = "몬스터테이블이 저장된 폴더를 지정하세요";
+            this.monsterTablePathBrowserDialog.ShowNewFolderButton = false;
+            // 
             // IG_Ribbon
             // 
             this.Name = "IG_Ribbon";
@@ -297,6 +302,7 @@
         private System.Windows.Forms.FolderBrowserDialog metaTablePathBrowserDialog;
         internal Microsoft.Office.Tools.Ribbon.RibbonButton btnExportMonsterTable;
         private System.Windows.Forms.FolderBrowserDialog tablePathBrowserDialog;
+        private System.Windows.Forms.FolderBrowserDialog monsterTablePathBrowserDialog;
     }
 
     partial class ThisRibbonCollection
