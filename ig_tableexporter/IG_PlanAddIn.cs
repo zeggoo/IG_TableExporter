@@ -630,8 +630,14 @@ namespace IG_TableExporter
             JsonTextReader reader;
             MonsterInfo tmpInfo;
 
+            var monsterTable = "";
+
             // 몬스터 데이터 읽어오기
-            string monsterTable = File.ReadAllText(Path.Combine(Properties.Settings.Default.MonsterTablePath, Properties.Settings.Default.MonsterTableExportName + "_" + stage + ".json"));
+            if (stage == "Common")
+                monsterTable = File.ReadAllText(Path.Combine(Properties.Settings.Default.MonsterTablePath, Properties.Settings.Default.MonsterTableExportName + "_" + stage + ".json"));
+            else
+                monsterTable = File.ReadAllText(Path.Combine(Properties.Settings.Default.MonsterTablePath, Properties.Settings.Default.StageMonsterTablePath, Properties.Settings.Default.MonsterTableExportName + "_" + stage + ".json"));
+
             /*JsonTextReader*/
             reader = new JsonTextReader(new StringReader(monsterTable));
 
