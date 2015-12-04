@@ -388,5 +388,14 @@ namespace IG_TableExporter.Properties {
                 return ((string)(this["MonsterTableExportName"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("..//StageMonsters//")]
+        public string StageMonsterTablePath {
+            get {
+                return ((string)(this["StageMonsterTablePath"]));
+            }
+        }
     }
 }
