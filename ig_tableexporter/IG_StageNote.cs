@@ -71,7 +71,7 @@ namespace IG_TableExporter
             //json.WriteEndObject();
         }
 
-        public void AddElement(List<Tuple<int, int, float>> element)
+        public void AddElement(List<Tuple<int, int, float, int>> element)
         {
             for (int i = 0; i < element.Count; i++)
             //foreach (int k in element.Keys)
@@ -90,6 +90,13 @@ namespace IG_TableExporter
                 json.WritePropertyName(Properties.Settings.Default.NextTimeName);
                 json.WriteValue(Convert.ToString(element.ElementAt(i).Item3));
 
+                // pos 정보가 기본값(0)일 경우, 출력하지 않음
+                if (element.ElementAt(i).Item4 != 0)
+                {
+                    json.WritePropertyName(Properties.Settings.Default.NotePositionName);
+                    json.WriteValue(Convert.ToString(element.ElementAt(i).Item4));
+                }
+
                 json.WriteEndObject();
             }
         }
@@ -104,8 +111,8 @@ namespace IG_TableExporter
         internal void StartNote(int nextRound)
         {
             StartAdd(0);
-            var firstList = new List<Tuple<int, int, float>>();
-            firstList.Add(new Tuple<int, int, float>(0, 0, (float)nextRound / 10f));
+            var firstList = new List<Tuple<int, int, float, int>>();
+            firstList.Add(new Tuple<int, int, float, int>(0, 0, (float)nextRound / 10f, 0));
             AddElement(firstList);
             EndAdd();
         }

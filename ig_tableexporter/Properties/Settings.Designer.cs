@@ -115,7 +115,7 @@ namespace IG_TableExporter.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        [global::System.Configuration.DefaultSettingValueAttribute("8")]
         public int NoteMaxSpawn {
             get {
                 return ((int)(this["NoteMaxSpawn"]));
@@ -395,6 +395,24 @@ namespace IG_TableExporter.Properties {
         public string StageMonsterTablePath {
             get {
                 return ((string)(this["StageMonsterTablePath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Pos")]
+        public string NotePositionName {
+            get {
+                return ((string)(this["NotePositionName"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int NoteMaxPosition {
+            get {
+                return ((int)(this["NoteMaxPosition"]));
             }
         }
     }

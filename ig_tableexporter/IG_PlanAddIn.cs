@@ -414,7 +414,7 @@ namespace IG_TableExporter
                             currentRound = Convert.ToInt32(lo.DataBodyRange[cnt, lo.ListColumns["Round"].Index].value2);
                             nextRound = Convert.ToInt32(lo.DataBodyRange[cnt+1, lo.ListColumns["Round"].Index].value2);
 
-                            List<Tuple<int, int, float>> noteElement = new List<Tuple<int, int, float>>();
+                            List<Tuple<int, int, float, int>> noteElement = new List<Tuple<int, int, float, int>>();
                             if (r == currentRound)
                             {
                                 if (note.Count <= 0) note.StartNote(currentRound);
@@ -430,13 +430,25 @@ namespace IG_TableExporter
                                     {
                                         spawn = 0;
                                     }
+
+                                    // 1~5까지 등장위치지정(기본값: 0)
+                                    int pos = 0;
+                                    try
+                                    {
+                                        pos = Convert.ToInt32(lo.DataBodyRange[cnt, lo.ListColumns["Pos" + i].Index].value2);
+                                        
+                                    }
+                                    catch (Exception)
+                                    {
+                                        pos = 0;
+                                    }
                                     //int prob = Convert.ToInt32(lo.DataBodyRange[cnt, lo.ListColumns["Prob" + i].Index].value2);
 
                                     if (spawn > 0)
                                         if (r < note.Length)
-                                            noteElement.Add(new Tuple<int, int, float>(spawn, ValidateNoteProb(r, lo.DataBodyRange[cnt, lo.ListColumns["Prob" + i].Index].value2), (float)(nextRound - currentRound) / 10));
+                                            noteElement.Add(new Tuple<int, int, float, int>(spawn, ValidateNoteProb(r, lo.DataBodyRange[cnt, lo.ListColumns["Prob" + i].Index].value2), (float)(nextRound - currentRound) / 10, pos));
                                         else
-                                            noteElement.Add(new Tuple<int, int, float>(spawn, ValidateNoteProb(r, lo.DataBodyRange[cnt, lo.ListColumns["Prob" + i].Index].value2), 0f));
+                                            noteElement.Add(new Tuple<int, int, float, int>(spawn, ValidateNoteProb(r, lo.DataBodyRange[cnt, lo.ListColumns["Prob" + i].Index].value2), 0f, pos));
                                 }
 
                                 if (IsValidNote(r, noteElement)) note.AddElement(noteElement);
@@ -1149,7 +1161,7 @@ namespace IG_TableExporter
         //    throw new Exception("스테이지 누적골드 정보가 잘못 기입되었습니다.");
         //}
 
-        private bool IsValidNote(int r, List<Tuple<int, int, float>> noteElement)
+        private bool IsValidNote(int r, List<Tuple<int, int, float, int>> noteElement)
         {
             bool isValid = true;
 
@@ -1165,6 +1177,7 @@ namespace IG_TableExporter
                 if (noteElement.ElementAt(i).Item1 > 0) spawnCount++;
                 if (noteElement.ElementAt(i).Item2 > Properties.Settings.Default.PermilFactor) isValid = false;
                 if (noteElement.ElementAt(i).Item3 < 0) isValid = false;
+                if (noteElement.ElementAt(i).Item4 < 0 || noteElement.ElementAt(i).Item4 > Properties.Settings.Default.NoteMaxPosition) isValid = false;
             }
 
             // 최소한 하나의 몬스터아이디가 기입되어있어야하며 아이디는 양수여야 함
