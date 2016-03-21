@@ -406,5 +406,14 @@ namespace IG_TableExporter.Properties {
                 return ((string)(this["NotePositionName"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public int NoteMaxPosition {
+            get {
+                return ((int)(this["NoteMaxPosition"]));
+            }
+        }
     }
 }

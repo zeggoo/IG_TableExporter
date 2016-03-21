@@ -431,7 +431,7 @@ namespace IG_TableExporter
                                         spawn = 0;
                                     }
 
-                                    // 0~4까지 등장위치지정(기본값: 0)
+                                    // 1~5까지 등장위치지정(기본값: 0)
                                     int pos = 0;
                                     try
                                     {
@@ -1177,7 +1177,7 @@ namespace IG_TableExporter
                 if (noteElement.ElementAt(i).Item1 > 0) spawnCount++;
                 if (noteElement.ElementAt(i).Item2 > Properties.Settings.Default.PermilFactor) isValid = false;
                 if (noteElement.ElementAt(i).Item3 < 0) isValid = false;
-                if (noteElement.ElementAt(i).Item4 < 0 || noteElement.ElementAt(i).Item4 > 4) isValid = false;
+                if (noteElement.ElementAt(i).Item4 < 0 || noteElement.ElementAt(i).Item4 > Properties.Settings.Default.NoteMaxPosition) isValid = false;
             }
 
             // 최소한 하나의 몬스터아이디가 기입되어있어야하며 아이디는 양수여야 함
