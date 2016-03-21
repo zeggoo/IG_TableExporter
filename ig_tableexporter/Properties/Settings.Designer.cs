@@ -397,5 +397,14 @@ namespace IG_TableExporter.Properties {
                 return ((string)(this["StageMonsterTablePath"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Pos")]
+        public string NotePositionName {
+            get {
+                return ((string)(this["NotePositionName"]));
+            }
+        }
     }
 }
