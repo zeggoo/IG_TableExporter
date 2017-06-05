@@ -1629,7 +1629,7 @@ namespace IG_TableExporter
                 // 이 곳에서 유효성검증을 하자
                 switch (dataType.ToUpper())
                 {
-                    case "UniqueKEY":
+                    case "UNIQUEKEY":
                     case "KEY":
                     case "UINT":
                         tmp = Convert.ToUInt32(data).ToString();
