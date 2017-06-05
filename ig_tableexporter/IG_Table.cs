@@ -11,7 +11,7 @@ namespace IG_TableExporter
     public class IG_Table : System.Collections.SortedList
     {
         private string name;
-        private bool uniqueKey;
+        private bool hasUniqueKey;
 
         private StringBuilder sb;
         private StringWriter sw;
@@ -19,10 +19,19 @@ namespace IG_TableExporter
 
         public enum DataType
         {
-            INTEGER,
-            FLOAT,
+            UNIQUEKEY,
+            KEY,
+            BYTE,
+            USHORT,
+            UINT,
+            SHORT,
+            INT,
+            FLOAT_1K,
+            FLOAT_10K,
+            FLOAT_1M,
             BOOL,
-            TEXT
+            TEXT,
+            ARRAY
         }
 
         public string Name
@@ -41,26 +50,29 @@ namespace IG_TableExporter
         {
             get
             {
-                return this.uniqueKey;
+                return this.hasUniqueKey;
             }
             set
             {
-                this.uniqueKey = value;
+                this.hasUniqueKey = value;
             }
         }
 
-        public IG_Table(string name)
+        public IG_Table(string name) : this(name, true) { }
+
+        public IG_Table(string name, bool hasUniqueKey = true)
         {
             Name = name;
-            uniqueKey = true;
+
+            UniqueKey = hasUniqueKey;
 
             sb = new StringBuilder();
             sw = new StringWriter(sb);
-            json = new JsonTextWriter(sw);            
+            json = new JsonTextWriter(sw);
             json.Formatting = Formatting.Indented;
-            
-            json.WriteStartObject();
-            json.WritePropertyName(Properties.Settings.Default.MetaTable_Prefix + name.Replace(Properties.Settings.Default.TablePostfix, String.Empty));
+
+            //json.WriteStartObject();
+            //json.WritePropertyName(Properties.Settings.Default.MetaTable_Prefix + name.Replace(Properties.Settings.Default.TablePostfix, String.Empty));
             json.WriteStartArray();
         }
 
@@ -71,10 +83,12 @@ namespace IG_TableExporter
 
         public void StartAdd(int key)
         {            
-            if (base.ContainsKey(key))
+            if (hasUniqueKey && base.ContainsKey(key))
                 throw new Exception(String.Format("{0} 인덱스가 중복됩니다.", key));
-            base.Add(key, null);
-
+            if (hasUniqueKey)
+                base.Add(key, null);
+            else
+                base.Add(this.Count + 1, null);
             StartAdd();
         }
 
@@ -94,6 +108,14 @@ namespace IG_TableExporter
             // 데이터 타입에 따라 출력방식을 다르게 함
             switch (dataType.ToUpper())
             {
+                // UniqueKEY,KEY,BYTE,USHORT,UINT,SHORT,INT,FLOAT_1K,FLOAT_10K,FLOAT_1M,BOOL,TEXT,ARRAY
+                case "UNIQUEKEY":
+                case "KEY":
+                case "BYTE":
+                case "USHORT":
+                case "UINT":
+                case "SHORT":
+                case "INT":                    
                 case "INTEGER":                
                 case "BOOL":
                     json.WriteRawValue(value);
@@ -101,9 +123,16 @@ namespace IG_TableExporter
                 case "TEXT":
                     json.WriteValue(value);
                     break;
+                case "FLOAT_1K":
+                case "FLOAT_10K":
+                case "FLOAT_1M":
                 case "FLOAT":
                     json.WriteRawValue(value);
                     //json.WriteComment(String.Format("{0:P1}", Convert.ToDouble(value) / Properties.Settings.Default.PermilFactor));
+                    break;
+                case "ARRAY":
+                    // ARRAY 검증
+                    json.WriteRawValue(value);
                     break;
                 default:
                     // SUBGROUP이 존재함
@@ -116,7 +145,7 @@ namespace IG_TableExporter
         public override string ToString()
         {
             json.WriteEndArray();
-            json.WriteEndObject();
+            //json.WriteEndObject();
             return sb.ToString();
         }
     }

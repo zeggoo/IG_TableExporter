@@ -43,7 +43,7 @@
     <PublishUrl>C:\MagnetGames\기획전용\Balance\TableExporter\</PublishUrl>
     <InstallUrl />
     <TargetCulture>ko</TargetCulture>
-    <ApplicationVersion>0.0.0.3</ApplicationVersion>
+    <ApplicationVersion>0.0.0.4</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
@@ -53,7 +53,7 @@
     <SupportUrl />
     <FriendlyName>IG_TableExporter</FriendlyName>
     <OfficeApplicationDescription />
-    <LoadBehavior>16</LoadBehavior>
+    <LoadBehavior>3</LoadBehavior>
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,KB2468871">

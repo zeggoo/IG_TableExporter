@@ -77,6 +77,10 @@ namespace IG_TableExporter
         private Dictionary<string, Dictionary<string, string>> branchAliases;
         private Dictionary<string, Dictionary<string, string>> branchDataTypes;
         private Dictionary<string, Dictionary<string, string>> branchDataDescriptions;
+        
+        // min/max 처리용
+        private Dictionary<string, Dictionary<string, string>> branchMins;
+        private Dictionary<string, Dictionary<string, string>> branchMaxes;
 
         private string[] tableInfo;
         private Dictionary<string, string> monsterSpritePaths;
@@ -172,14 +176,18 @@ namespace IG_TableExporter
             Dictionary<string, string> dataType;
             Dictionary<string, Dictionary<string, string>> subgroups;
             
+            /*
             IG_Table table = new IG_Table(GetTableName());
-
             if (table == null) throw new Exception("테이블명이 제대로 설정되지 않았습니다.");
+             */
             
             if (!BranchDefines.ContainsKey(branch)) throw new Exception("[" + branch + "] 브랜치 설정이 존재하지 않습니다.");
             
             define = BranchDefines[branch];
             ChangeBranch(branch);
+
+            IG_Table table = new IG_Table(GetTableName(), define.First().Key == Properties.Settings.Default.UniqueKeyName);
+            if (table == null) throw new Exception("테이블명이 제대로 설정되지 않았습니다.");
 
             dataType = BranchDataTypes[branch];
             subgroups = GetSubgroups();
@@ -231,7 +239,7 @@ namespace IG_TableExporter
                                 int id = Convert.ToInt32(lo.DataBodyRange[r, keyIndex].value2);
                                 if (id > 0)
                                 {
-                                    if (table.ContainsKey(id))
+                                    if (table.ContainsKey(id) && table.UniqueKey)
                                         throw new Exception(String.Format("인덱스 중복오류: {0}", id));
 
                                     table.StartAdd(id);
@@ -1224,6 +1232,9 @@ namespace IG_TableExporter
             tableInfo = null;
             branchDataTypes = null;
             branchDataDescriptions = null;
+
+            branchMins = null;
+            branchMaxes = null;
         }
 
         internal void WriteTable(string fileName, IG_Table table)
@@ -1520,7 +1531,7 @@ namespace IG_TableExporter
             return tmpDatatmpDataDescriptions;
         }
 
-        private string GetValidateData(string data, string dataType, Dictionary<string, Dictionary<string, string>> subgroups)
+        private string GetValidateData(string data, string dataType, Dictionary<string, Dictionary<string, string>> subgroups, Dictionary<string, Dictionary<string, string>> mins = null, Dictionary<string, Dictionary<string, string>> maxes = null)
         {
             bool validate = true;
             string tmp = data;
@@ -1529,18 +1540,41 @@ namespace IG_TableExporter
             {
                 switch (dataType.ToUpper())
                 {
-                    case "INTEGER":
+                    case "UniqueKEY":
+                    case "KEY":
+                    case "UINT":
+                        Convert.ToUInt32(data);
+                        break;
+                    case "BYTE":
+                        Convert.ToByte(data);
+                        break;
+                    case "USHORT":
+                        Convert.ToUInt16(data);
+                        break;
+                    case "SHORT":
+                        Convert.ToInt16(data);
+                        break;                        
+                    case "INT":
                         Convert.ToInt32(data);
                         break;
-                    case "FLOAT":
-                        // 실수형은 자동 천분율 처리
-                        tmp = Convert.ToInt32(Convert.ToDouble(tmp) * Properties.Settings.Default.PermilFactor).ToString();
+                    // 실수형은 천분율, 만분율, 백만분율로 타입에 따라 변환
+                    case "FLOAT_1K":                        
+                        tmp = Convert.ToInt32(Convert.ToDouble(tmp) * Properties.Settings.Default.FLOATFACTOR_1K).ToString();
+                        break;
+                    case "FLOAT_10K":
+                        tmp = Convert.ToInt32(Convert.ToDouble(tmp) * Properties.Settings.Default.FLOATFACTOR_10K).ToString();
+                        break;
+                    case "FLOAT_1M":
+                        tmp = Convert.ToInt32(Convert.ToDouble(tmp) * Properties.Settings.Default.FLOATFACTOR_1M).ToString();
                         break;
                     case "BOOL":
                         tmp = Convert.ToBoolean(data) ? "1" : "0";
                         break;
                     case "TEXT":
                         Convert.ToString(data);
+                        break;
+                    case "ARRAY":
+
                         break;
                     default:
                         // SUBGROUP이 존재할 때
@@ -1583,7 +1617,8 @@ namespace IG_TableExporter
                         {
                             if (lo.DataBodyRange[r + 1, lo.ListColumns["subgroups"].Index].value2 != null)
                             {
-                                k = ((string)lo.DataBodyRange[r + 1, lo.ListColumns["subgroups"].Index].value2).ToUpper().Replace("_", "");
+                                //k = ((string)lo.DataBodyRange[r + 1, lo.ListColumns["subgroups"].Index].value2).ToUpper().Replace("_", "");
+                                k = ((string)lo.DataBodyRange[r + 1, lo.ListColumns["subgroups"].Index].value2).ToUpper();
                                 v = (string)lo.DataBodyRange[r + 1, lo.ListColumns["subgroup_name"].Index].value2;
 
                                 try

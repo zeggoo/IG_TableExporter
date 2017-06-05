@@ -9,7 +9,7 @@
       <Value Profile="(Default)">Define_Branch</Value>
     </Setting>
     <Setting Name="TablePrefix" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">IG_</Value>
+      <Value Profile="(Default)">MG_</Value>
     </Setting>
     <Setting Name="TablePostfix" Type="System.String" Scope="Application">
       <Value Profile="(Default)">Table</Value>
@@ -24,7 +24,7 @@
       <Value Profile="(Default)">브랜치명</Value>
     </Setting>
     <Setting Name="UniqueKeyName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">유일키설정</Value>
+      <Value Profile="(Default)">UniqueKEY</Value>
     </Setting>
     <Setting Name="Seperator" Type="System.String" Scope="Application">
       <Value Profile="(Default)">,</Value>
@@ -124,6 +124,15 @@
     </Setting>
     <Setting Name="NoteMaxPosition" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">5</Value>
+    </Setting>
+    <Setting Name="FLOATFACTOR_1K" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1000</Value>
+    </Setting>
+    <Setting Name="FLOATFACTOR_10K" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">10000</Value>
+    </Setting>
+    <Setting Name="FLOATFACTOR_1M" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">1000000</Value>
     </Setting>
   </Settings>
 </SettingsFile>

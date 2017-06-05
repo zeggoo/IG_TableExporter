@@ -43,7 +43,7 @@ namespace IG_TableExporter.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("IG_")]
+        [global::System.Configuration.DefaultSettingValueAttribute("MG_")]
         public string TablePrefix {
             get {
                 return ((string)(this["TablePrefix"]));
@@ -88,7 +88,7 @@ namespace IG_TableExporter.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("유일키설정")]
+        [global::System.Configuration.DefaultSettingValueAttribute("UniqueKEY")]
         public string UniqueKeyName {
             get {
                 return ((string)(this["UniqueKeyName"]));
@@ -413,6 +413,33 @@ namespace IG_TableExporter.Properties {
         public int NoteMaxPosition {
             get {
                 return ((int)(this["NoteMaxPosition"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int FLOATFACTOR_1K {
+            get {
+                return ((int)(this["FLOATFACTOR_1K"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("10000")]
+        public int FLOATFACTOR_10K {
+            get {
+                return ((int)(this["FLOATFACTOR_10K"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000000")]
+        public int FLOATFACTOR_1M {
+            get {
+                return ((int)(this["FLOATFACTOR_1M"]));
             }
         }
     }
