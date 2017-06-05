@@ -175,7 +175,11 @@ namespace IG_TableExporter
             Dictionary<string, string> define;
             Dictionary<string, string> dataType;
             Dictionary<string, Dictionary<string, string>> subgroups;
-            
+
+            // 필드 최소/최대값 검증을 위한 필드
+            Dictionary<string, Dictionary<string, string>> mins;
+            Dictionary<string, Dictionary<string, string>> maxes;
+
             /*
             IG_Table table = new IG_Table(GetTableName());
             if (table == null) throw new Exception("테이블명이 제대로 설정되지 않았습니다.");
@@ -191,6 +195,9 @@ namespace IG_TableExporter
 
             dataType = BranchDataTypes[branch];
             subgroups = GetSubgroups();
+
+            mins = GetBranchMins();
+            maxes = GetBranchMaxes();
             
             // row 순서대로 브랜치를 체크하여 데이터로 출력
             foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
@@ -253,18 +260,18 @@ namespace IG_TableExporter
                                         {
                                             // 필드정의에 존재하나 실데이터가 없는 경우, 기본값 출력   
                                             if (indexMatch[k] > 0 && tmp != null && dataType[k] != null)
-                                                table.AddElement(k, ToXmlString(GetValidateData(Convert.ToString(tmp), dataType[k], subgroups)), dataType[k], subgroups);
+                                                table.AddElement(k, ToXmlString(GetValidateData(Convert.ToString(tmp), dataType[k], subgroups, mins[branch][k], maxes[branch][k])), dataType[k], subgroups);
                                             else
-                                                table.AddElement(k, ToXmlString(GetValidateData(Convert.ToString(BranchDefines[branch][k]), dataType[k], subgroups)), dataType[k], subgroups);
+                                                table.AddElement(k, ToXmlString(GetValidateData(Convert.ToString(BranchDefines[branch][k]), dataType[k], subgroups, mins[branch][k], maxes[branch][k])), dataType[k], subgroups);
                                         }
                                         catch(Exception e)
                                         {
                                             System.Windows.Forms.Clipboard.Clear();
                                             System.Windows.Forms.Clipboard.SetText(Convert.ToString(id));
                                             if (dataType[k] != null)
-                                                throw new Exception(String.Format("[{0} 데이터타입 오류]\n인덱스: {1}\n필드명: {2}", e.Message, id, k));
+                                                throw new Exception(String.Format("[데이터타입 오류]\n{0}\n인덱스: {1}\n필드명: {2}", e.Message, id, k));
                                             else
-                                                throw new Exception(String.Format("[데이터타입 미설정 오류]\n필드명: {0}", k));
+                                                throw new Exception(String.Format("[데이터타입 미설정 오류]\n인덱스: {0}", k));
                                         }
                                     }
                                     table.EndAdd();
@@ -1406,6 +1413,87 @@ namespace IG_TableExporter
             return tmpDefines;
         }
 
+        // DEFINE 최소/최대값 검증
+        private Dictionary<string, Dictionary<string, string>> GetBranchMins()
+        {
+            Dictionary<string, string> tmpMin;
+            Dictionary<string, Dictionary<string, string>> tmpMins = new Dictionary<string, Dictionary<string, string>>();
+
+            foreach (string branch in BranchList)
+            {
+                tmpMin = new Dictionary<string, string>();
+
+                foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
+                {
+                    foreach (Excel.ListObject lo in ws.ListObjects)
+                    {
+                        if (lo.Name.Equals(Properties.Settings.Default.BranchDefineName))
+                        {
+                            string k, v;
+                            for (int r = 0; r < lo.ListRows.Count; r++)
+                            {
+                                if (branch.Equals(lo.DataBodyRange[r + 1, lo.ListColumns["branchID"].Index].value2))
+                                {
+                                    k = (string)lo.DataBodyRange[r + 1, lo.ListColumns["field"].Index].value2;
+                                    try
+                                    {
+                                        v = "" + lo.DataBodyRange[r + 1, lo.ListColumns["min"].Index].value2;
+                                        tmpMin.Add(k, v);
+                                    }
+                                    catch
+                                    {
+                                        tmpMin.Add(k, "");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                tmpMins.Add(branch, tmpMin);
+            }
+            return tmpMins;                
+        }
+
+        private Dictionary<string, Dictionary<string, string>> GetBranchMaxes()
+        {
+            Dictionary<string, string> tmpMax;
+            Dictionary<string, Dictionary<string, string>> tmpMaxes = new Dictionary<string, Dictionary<string, string>>();
+
+            foreach (string branch in BranchList)
+            {
+                tmpMax = new Dictionary<string, string>();
+
+                foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
+                {
+                    foreach (Excel.ListObject lo in ws.ListObjects)
+                    {
+                        if (lo.Name.Equals(Properties.Settings.Default.BranchDefineName))
+                        {
+                            string k, v;
+                            for (int r = 0; r < lo.ListRows.Count; r++)
+                            {
+                                if (branch.Equals(lo.DataBodyRange[r + 1, lo.ListColumns["branchID"].Index].value2))
+                                {
+                                    k = (string)lo.DataBodyRange[r + 1, lo.ListColumns["field"].Index].value2;
+                                    try
+                                    {
+                                        v = "" + lo.DataBodyRange[r + 1, lo.ListColumns["max"].Index].value2;
+                                        tmpMax.Add(k, v);
+                                    }
+                                    catch
+                                    {
+                                        tmpMax.Add(k, "");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                tmpMaxes.Add(branch, tmpMax);
+            }
+            return tmpMaxes;
+        }
+
         // Alias로 설정해야할 필드인지 체크
         private Dictionary<string, Dictionary<string, string>> GetBranchAliases()
         {
@@ -1531,41 +1619,53 @@ namespace IG_TableExporter
             return tmpDatatmpDataDescriptions;
         }
 
-        private string GetValidateData(string data, string dataType, Dictionary<string, Dictionary<string, string>> subgroups, Dictionary<string, Dictionary<string, string>> mins = null, Dictionary<string, Dictionary<string, string>> maxes = null)
+        private string GetValidateData(string data, string dataType, Dictionary<string, Dictionary<string, string>> subgroups, string min = null, string max = null)
         {
             bool validate = true;
             string tmp = data;
 
             try
             {
+                // 이 곳에서 유효성검증을 하자
                 switch (dataType.ToUpper())
                 {
                     case "UniqueKEY":
                     case "KEY":
                     case "UINT":
-                        Convert.ToUInt32(data);
+                        tmp = Convert.ToUInt32(data).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToUInt32(min) > Convert.ToUInt32(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToUInt32(max) < Convert.ToUInt32(tmp));
                         break;
                     case "BYTE":
-                        Convert.ToByte(data);
+                        tmp = Convert.ToByte(data).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToByte(min) > Convert.ToByte(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToByte(max) < Convert.ToByte(tmp));
                         break;
                     case "USHORT":
-                        Convert.ToUInt16(data);
+                        tmp = Convert.ToUInt16(data).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToUInt16(min) > Convert.ToUInt16(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToUInt16(max) < Convert.ToUInt16(tmp));                        
                         break;
                     case "SHORT":
-                        Convert.ToInt16(data);
+                        tmp = Convert.ToInt16(data).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToInt16(min) > Convert.ToInt16(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToInt16(max) < Convert.ToInt16(tmp));                        
                         break;                        
                     case "INT":
-                        Convert.ToInt32(data);
+                        tmp = Convert.ToInt32(data).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToInt32(min) > Convert.ToInt32(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToInt32(max) < Convert.ToInt32(tmp));
                         break;
                     // 실수형은 천분율, 만분율, 백만분율로 타입에 따라 변환
                     case "FLOAT_1K":                        
                         tmp = Convert.ToInt32(Convert.ToDouble(tmp) * Properties.Settings.Default.FLOATFACTOR_1K).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToInt32(Convert.ToDouble(min) * Properties.Settings.Default.FLOATFACTOR_1K) > Convert.ToInt32(tmp))
+                                && !(!String.IsNullOrEmpty(max) && Convert.ToInt32(Convert.ToDouble(max) * Properties.Settings.Default.FLOATFACTOR_1K) < Convert.ToInt32(tmp));
                         break;
                     case "FLOAT_10K":
                         tmp = Convert.ToInt32(Convert.ToDouble(tmp) * Properties.Settings.Default.FLOATFACTOR_10K).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToInt32(Convert.ToDouble(min) * Properties.Settings.Default.FLOATFACTOR_10K) > Convert.ToInt32(tmp))
+                                && !(!String.IsNullOrEmpty(max) && Convert.ToInt32(Convert.ToDouble(max) * Properties.Settings.Default.FLOATFACTOR_10K) < Convert.ToInt32(tmp));
                         break;
                     case "FLOAT_1M":
                         tmp = Convert.ToInt32(Convert.ToDouble(tmp) * Properties.Settings.Default.FLOATFACTOR_1M).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToInt32(Convert.ToDouble(min) * Properties.Settings.Default.FLOATFACTOR_1M) > Convert.ToInt32(tmp))
+                                && !(!String.IsNullOrEmpty(max) && Convert.ToInt32(Convert.ToDouble(max) * Properties.Settings.Default.FLOATFACTOR_1M) < Convert.ToInt32(tmp));
                         break;
                     case "BOOL":
                         tmp = Convert.ToBoolean(data) ? "1" : "0";
@@ -1594,7 +1694,9 @@ namespace IG_TableExporter
             }
 
             if (!validate)
-                throw new Exception(dataType.ToUpper());
+                //throw new Exception(dataType.ToUpper());
+                throw new Exception(dataType.ToUpper() + " 유효성 검증실패");
+            
 
             return tmp;
         }
