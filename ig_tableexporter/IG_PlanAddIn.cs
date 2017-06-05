@@ -1674,6 +1674,20 @@ namespace IG_TableExporter
                         Convert.ToString(data);
                         break;
                     case "ARRAY":
+                        tmp = Convert.ToString(data);                        
+                        if (tmp.First().ToString() == Properties.Settings.Default.ARRAY_PREFIX && tmp.Last().ToString() == Properties.Settings.Default.ARRAY_POSTFIX)
+                        {
+                            // Array의 빈 자리가 있는지 체크
+                            var arr = tmp.Substring(1, tmp.Length - 2);
+                            var tmpArr = arr.Split(Properties.Settings.Default.ARRAY_SEPARATOR.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                            validate = tmpArr.Length == arr.Split(Properties.Settings.Default.ARRAY_SEPARATOR.ToCharArray(), StringSplitOptions.None).Length;                            
+
+                            // min/max 체크(double type으로)
+                            foreach(var v in tmpArr)
+                            {
+                                validate &= !(!String.IsNullOrEmpty(min) && Convert.ToDouble(min) > Convert.ToDouble(v)) && !(!String.IsNullOrEmpty(max) && Convert.ToDouble(max) < Convert.ToDouble(v));
+                            }
+                        }                        
 
                         break;
                     default:

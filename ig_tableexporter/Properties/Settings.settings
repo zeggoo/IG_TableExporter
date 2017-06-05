@@ -134,5 +134,14 @@
     <Setting Name="FLOATFACTOR_1M" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">1000000</Value>
     </Setting>
+    <Setting Name="ARRAY_PREFIX" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">[</Value>
+    </Setting>
+    <Setting Name="ARRAY_POSTFIX" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">]</Value>
+    </Setting>
+    <Setting Name="ARRAY_SEPARATOR" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">,</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

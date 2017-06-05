@@ -442,5 +442,32 @@ namespace IG_TableExporter.Properties {
                 return ((int)(this["FLOATFACTOR_1M"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[")]
+        public string ARRAY_PREFIX {
+            get {
+                return ((string)(this["ARRAY_PREFIX"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("]")]
+        public string ARRAY_POSTFIX {
+            get {
+                return ((string)(this["ARRAY_POSTFIX"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(",")]
+        public string ARRAY_SEPARATOR {
+            get {
+                return ((string)(this["ARRAY_SEPARATOR"]));
+            }
+        }
     }
 }
