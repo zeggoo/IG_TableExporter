@@ -60,3 +60,17 @@ D:\GitHub\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.csproj.Ge
 D:\GitHub\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.dll
 D:\GitHub\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.pdb
 D:\GitHub\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.csprojResolveAssemblyReference.cache
+C:\Github\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.csprojResolveAssemblyReference.cache
+C:\Github\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.IG_Ribbon.resources
+C:\Github\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.MonsterInfoTask.resources
+C:\Github\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.Properties.Resources.resources
+C:\Github\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.csproj.GenerateResource.Cache
+C:\Github\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.dll
+C:\Github\IG_TableExporter\IG_TableExporter\obj\Debug\IG_TableExporter.pdb
+C:\Github\IG_TableExporter\IG_TableExporter\bin\Debug\IG_TableExporter.dll.config
+C:\Github\IG_TableExporter\IG_TableExporter\bin\Debug\IG_TableExporter.dll
+C:\Github\IG_TableExporter\IG_TableExporter\bin\Debug\IG_TableExporter.pdb
+C:\Github\IG_TableExporter\IG_TableExporter\bin\Debug\IG_TableExporter.dll.manifest
+C:\Github\IG_TableExporter\IG_TableExporter\bin\Debug\IG_TableExporter.vsto
+C:\Github\IG_TableExporter\IG_TableExporter\bin\Debug\Microsoft.Office.Tools.Common.v4.0.Utilities.dll
+C:\Github\IG_TableExporter\IG_TableExporter\bin\Debug\Newtonsoft.Json.dll
