@@ -43,17 +43,17 @@
     <PublishUrl>C:\MagnetGames\기획전용\Balance\TableExporter\</PublishUrl>
     <InstallUrl />
     <TargetCulture>ko</TargetCulture>
-    <ApplicationVersion>0.0.0.0</ApplicationVersion>
+    <ApplicationVersion>0.0.0.3</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>
     <UpdateIntervalUnits>days</UpdateIntervalUnits>
     <ProductName>IG_TableExporter</ProductName>
     <PublisherName>LEE, Yunseok</PublisherName>
-    <SupportUrl>https://dev.naver.com/svn/herodash/Plan/Worksheet/tools</SupportUrl>
+    <SupportUrl />
     <FriendlyName>IG_TableExporter</FriendlyName>
     <OfficeApplicationDescription />
-    <LoadBehavior>3</LoadBehavior>
+    <LoadBehavior>16</LoadBehavior>
   </PropertyGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,KB2468871">
@@ -312,7 +312,7 @@
       <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
         <ProjectProperties HostName="Excel" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Excel" Language="cs" TemplatesPath="VSTOTemplates" DebugInfoExeName="#Software\Microsoft\Office\15.0\Excel\InstallRoot\Path#excel.exe" DebugInfoCommandLine="/x " AddItemTemplatesGuid="{51063C3A-E220-4D12-8922-BDA915ACD783}" />
         <Host Name="Excel" GeneratedCodeNamespace="AS_TableExporter" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
-          <HostItem Name="ThisAddIn" Code="IG_PlanAddIn.cs" CanonicalName="AddIn" PublishedHash="342B80D8EC4CC1A405EE50569B291F7CB06C9749" CanActivate="false" IconIndex="1" Blueprint="IG_PlanAddIn.Designer.xml" GeneratedCode="IG_PlanAddIn.Designer.cs" />
+          <HostItem Name="ThisAddIn" Code="IG_PlanAddIn.cs" CanonicalName="AddIn" PublishedHash="6CCA8DC5A3D056270D36640B6A4624BC03C10234" CanActivate="false" IconIndex="1" Blueprint="IG_PlanAddIn.Designer.xml" GeneratedCode="IG_PlanAddIn.Designer.cs" />
         </Host>
       </FlavorProperties>
     </VisualStudio>

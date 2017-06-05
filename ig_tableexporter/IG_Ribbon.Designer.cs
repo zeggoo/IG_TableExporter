@@ -73,7 +73,7 @@
             this.IG_Tab.Groups.Add(this.IG_MetaTableGroup);
             this.IG_Tab.Groups.Add(this.IG_ResourcePathGroup);
             this.IG_Tab.Groups.Add(this.IG_StageNoteGroup);
-            this.IG_Tab.Label = "ICON Games";
+            this.IG_Tab.Label = "MagnetGames";
             this.IG_Tab.Name = "IG_Tab";
             // 
             // IG_TableGroup
@@ -107,6 +107,7 @@
             this.btnExportMonsterTable.Label = "몬스터테이블 추출";
             this.btnExportMonsterTable.Name = "btnExportMonsterTable";
             this.btnExportMonsterTable.ShowImage = true;
+            this.btnExportMonsterTable.Visible = false;
             this.btnExportMonsterTable.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.btnExportMonsterTable_Click);
             // 
             // btnExportTable
@@ -124,6 +125,7 @@
             this.IG_MetaTableGroup.Items.Add(this.btnExportMetaTable);
             this.IG_MetaTableGroup.Label = "메타테이블";
             this.IG_MetaTableGroup.Name = "IG_MetaTableGroup";
+            this.IG_MetaTableGroup.Visible = false;
             // 
             // btnSetMetaTablePathProperties
             // 
@@ -149,6 +151,7 @@
             this.IG_ResourcePathGroup.Items.Add(this.btnVerifyResourcePaths);
             this.IG_ResourcePathGroup.Label = "리소스";
             this.IG_ResourcePathGroup.Name = "IG_ResourcePathGroup";
+            this.IG_ResourcePathGroup.Visible = false;
             // 
             // btnSetResourcePathProperties
             // 
@@ -175,6 +178,7 @@
             this.IG_StageNoteGroup.Items.Add(this.btnExportStageNote);
             this.IG_StageNoteGroup.Label = "스테이지 노트";
             this.IG_StageNoteGroup.Name = "IG_StageNoteGroup";
+            this.IG_StageNoteGroup.Visible = false;
             // 
             // btnSetNotePathProperties
             // 
