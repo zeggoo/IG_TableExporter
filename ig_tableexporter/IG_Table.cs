@@ -26,6 +26,8 @@ namespace IG_TableExporter
             UINT,
             SHORT,
             INT,
+            LONG,
+            FLOAT,
             FLOAT_1K,
             FLOAT_10K,
             FLOAT_1M,
@@ -33,6 +35,7 @@ namespace IG_TableExporter
             TEXT,
             ARRAY
         }
+
 
         public string Name
         {
@@ -115,7 +118,8 @@ namespace IG_TableExporter
                 case "USHORT":
                 case "UINT":
                 case "SHORT":
-                case "INT":                    
+                case "INT":       
+                case "LONG":
                 case "INTEGER":                
                 case "BOOL":
                     json.WriteRawValue(value);

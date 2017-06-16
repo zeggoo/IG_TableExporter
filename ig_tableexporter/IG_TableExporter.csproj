@@ -43,7 +43,7 @@
     <PublishUrl>C:\MagnetGames\기획전용\Balance\TableExporter\</PublishUrl>
     <InstallUrl />
     <TargetCulture>ko</TargetCulture>
-    <ApplicationVersion>0.0.1.1</ApplicationVersion>
+    <ApplicationVersion>0.0.1.3</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>0</UpdateInterval>

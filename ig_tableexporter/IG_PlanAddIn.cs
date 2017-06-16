@@ -1651,6 +1651,14 @@ namespace IG_TableExporter
                         tmp = Convert.ToInt32(data).ToString();
                         validate = !(!String.IsNullOrEmpty(min) && Convert.ToInt32(min) > Convert.ToInt32(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToInt32(max) < Convert.ToInt32(tmp));
                         break;
+                    case "LONG":
+                        tmp = Convert.ToInt64(data).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToInt64(min) > Convert.ToInt64(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToInt64(max) < Convert.ToInt64(tmp));
+                        break;
+                    case "FLOAT":
+                        tmp = Convert.ToDouble(data).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToDouble(min) > Convert.ToDouble(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToDouble(max) < Convert.ToDouble(tmp));
+                        break;
                     // 실수형은 천분율, 만분율, 백만분율로 타입에 따라 변환
                     case "FLOAT_1K":                        
                         tmp = Convert.ToInt32(Convert.ToDouble(tmp) * Properties.Settings.Default.FLOATFACTOR_1K).ToString();
