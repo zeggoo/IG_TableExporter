@@ -469,5 +469,23 @@ namespace IG_TableExporter.Properties {
                 return ((string)(this["ARRAY_SEPARATOR"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("data")]
+        public string XLSX_SHEET {
+            get {
+                return ((string)(this["XLSX_SHEET"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\ServerExcels\\")]
+        public string XLSX_PATH {
+            get {
+                return ((string)(this["XLSX_PATH"]));
+            }
+        }
     }
 }

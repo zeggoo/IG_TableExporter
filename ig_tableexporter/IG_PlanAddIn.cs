@@ -77,6 +77,7 @@ namespace IG_TableExporter
         private Dictionary<string, Dictionary<string, string>> branchAliases;
         private Dictionary<string, Dictionary<string, string>> branchDataTypes;
         private Dictionary<string, Dictionary<string, string>> branchDataDescriptions;
+        private Dictionary<string, Dictionary<string, string>> branchDataDescriptionsCHN;
         
         // min/max 처리용
         private Dictionary<string, Dictionary<string, string>> branchMins;
@@ -135,6 +136,15 @@ namespace IG_TableExporter
                 return branchDataDescriptions;
             }
         }
+        public Dictionary<string, Dictionary<string, string>> BranchDataDescriptionsCHN
+        {
+            get
+            {
+                //if (this.branchDataDescriptionsCHN == null) this.branchDataDescriptionsCHN = GetBranchDataDescriptionsCHN();
+                if (this.branchDataDescriptionsCHN == null) this.branchDataDescriptionsCHN = GetBranchDataDescriptions("(CHN)");
+                return branchDataDescriptionsCHN;
+            }
+        }
 
         public Dictionary<string, string> MonsterSpritePaths
         {
@@ -173,6 +183,8 @@ namespace IG_TableExporter
             int cnt = 0;
 
             Dictionary<string, string> define;
+            Dictionary<string, string> desc;        // 중국서버 xlsx 파일 생성용
+            Dictionary<string, string> descCHN;        // 중국서버 xlsx 파일 생성용
             Dictionary<string, string> dataType;
             Dictionary<string, Dictionary<string, string>> subgroups;
 
@@ -184,9 +196,9 @@ namespace IG_TableExporter
             IG_Table table = new IG_Table(GetTableName());
             if (table == null) throw new Exception("테이블명이 제대로 설정되지 않았습니다.");
              */
-            
+
             if (!BranchDefines.ContainsKey(branch)) throw new Exception("[" + branch + "] 브랜치 설정이 존재하지 않습니다.");
-            
+
             define = BranchDefines[branch];
             ChangeBranch(branch);
 
@@ -194,11 +206,13 @@ namespace IG_TableExporter
             if (table == null) throw new Exception("테이블명이 제대로 설정되지 않았습니다.");
 
             dataType = BranchDataTypes[branch];
+            desc = BranchDataDescriptions[branch];
+            descCHN = BranchDataDescriptionsCHN[branch];
             subgroups = GetSubgroups();
 
             mins = GetBranchMins();
             maxes = GetBranchMaxes();
-            
+
             // row 순서대로 브랜치를 체크하여 데이터로 출력
             foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
             {
@@ -222,7 +236,7 @@ namespace IG_TableExporter
                         Dictionary<string, int> indexMatch = new Dictionary<string, int>();
 
                         foreach (string k in BranchDefines[branch].Keys)
-                        {   
+                        {
                             try
                             {
                                 if (BranchAliases[branch][k] == null) indexMatch.Add(k, lo.ListColumns[k].Index);
@@ -236,12 +250,19 @@ namespace IG_TableExporter
 
                         // 유일키 인덱스 구하기
                         int keyIndex = lo.ListColumns[BranchDefines[branch].First().Key].Index;
-                        
+
+                        // IG_Table에 define / desc 정보 보내기: 중국서버 xlsx 파일 생성용
+                        if (!table.ExistsMetaTable())
+                        {
+                            table.CreateMetaTable();
+                            table.AddMetaTableInfos(define, dataType, desc, descCHN);
+                        }
+
                         for (int r = 1; r <= lo.ListRows.Count; r++)
                         {
                             // tableinfo에서 설정된 contents만 출력                            
                             if (hasContentsID == false || IsValidContentsId(lo.DataBodyRange[r, lo.ListColumns["contentsID"].Index].value2))
-                            {   
+                            {
                                 cnt++;
                                 int id = Convert.ToInt32(lo.DataBodyRange[r, keyIndex].value2);
                                 if (id > 0)
@@ -252,7 +273,7 @@ namespace IG_TableExporter
                                     table.StartAdd(id);
 
                                     foreach (string k in BranchDefines[branch].Keys)
-                                    {  
+                                    {
                                         object tmp = lo.DataBodyRange[r, indexMatch[k]].value2;
 
                                         // 데이터 타입 검증 후, 출력
@@ -264,26 +285,35 @@ namespace IG_TableExporter
                                             else
                                                 table.AddElement(k, ToXmlString(GetValidateData(Convert.ToString(BranchDefines[branch][k]), dataType[k], subgroups, mins[branch][k], maxes[branch][k])), dataType[k], subgroups);
                                         }
-                                        catch(Exception e)
+                                        catch (Exception e)
                                         {
                                             System.Windows.Forms.Clipboard.Clear();
                                             System.Windows.Forms.Clipboard.SetText(Convert.ToString(id));
                                             if (dataType[k] != null)
+                                            {
+                                                table.ReleaseMetaTable();
                                                 throw new Exception(String.Format("[데이터타입 오류]\n{0}\n인덱스: {1}\n필드명: {2}", e.Message, id, k));
+                                            }
                                             else
+                                            {
+                                                table.ReleaseMetaTable();
                                                 throw new Exception(String.Format("[데이터타입 미설정 오류]\n인덱스: {0}", k));
+                                            }
                                         }
                                     }
                                     table.EndAdd();
                                 }
                             }
-                        }                         
+                        }
+                        //table.CloseMetaTable();
                     }
                 }
             }
-            if (cnt <= 0) throw new Exception("테이블명이 정확하지 않습니다.");
 
-            return table;
+            if (table.ExistsMetaTable())
+                table.CloseMetaTable();
+            if (cnt <= 0) throw new Exception("테이블명이 정확하지 않습니다.");
+                return table;
         }
         #endregion
 
@@ -1239,6 +1269,7 @@ namespace IG_TableExporter
             tableInfo = null;
             branchDataTypes = null;
             branchDataDescriptions = null;
+            branchDataDescriptionsCHN = null;
 
             branchMins = null;
             branchMaxes = null;
@@ -1578,7 +1609,7 @@ namespace IG_TableExporter
         }
 
         // 필드 설명 참조
-        private Dictionary<string, Dictionary<string, string>> GetBranchDataDescriptions()
+        private Dictionary<string, Dictionary<string, string>> GetBranchDataDescriptions(string descType = "")
         {
             Dictionary<string, string> tmpDataDescription;
             Dictionary<string, Dictionary<string, string>> tmpDatatmpDataDescriptions = new Dictionary<string, Dictionary<string, string>>();
@@ -1602,7 +1633,8 @@ namespace IG_TableExporter
                                     k = (string)lo.DataBodyRange[r + 1, lo.ListColumns["field"].Index].value2;
                                     try
                                     {
-                                        v = (string)lo.DataBodyRange[r + 1, lo.ListColumns["description"].Index].value2;
+                                        //v = (string)lo.DataBodyRange[r + 1, lo.ListColumns["description"+descType].Index].value2;
+                                        v = Encoding.UTF8.GetString(Encoding.UTF8.GetBytes(lo.DataBodyRange[r + 1, lo.ListColumns["description" + descType].Index].value2));
                                         tmpDataDescription.Add(k, v);
                                     }
                                     catch
@@ -1618,7 +1650,7 @@ namespace IG_TableExporter
             }
             return tmpDatatmpDataDescriptions;
         }
-
+        
         private string GetValidateData(string data, string dataType, Dictionary<string, Dictionary<string, string>> subgroups, string min = null, string max = null)
         {
             bool validate = true;
@@ -2178,7 +2210,6 @@ namespace IG_TableExporter
             File.WriteAllText(filePath, sb.ToString(), Encoding.UTF8);
 
             SVNDiff(filePath);
-
         }
         #endregion
 

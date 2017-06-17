@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <PublishUrlHistory>
-    </PublishUrlHistory>
+    <PublishUrlHistory>C:\MagnetGames\Design\10_Excels\TableExporter\</PublishUrlHistory>
     <InstallUrlHistory>
     </InstallUrlHistory>
     <SupportUrlHistory>https://dev.naver.com/svn/herodash/Plan/Worksheet/tools|https://118.36.245.197/svn/ArkSphere/Document/Plan/Tool/TableExporter</SupportUrlHistory>

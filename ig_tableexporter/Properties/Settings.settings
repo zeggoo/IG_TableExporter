@@ -143,5 +143,11 @@
     <Setting Name="ARRAY_SEPARATOR" Type="System.String" Scope="Application">
       <Value Profile="(Default)">,</Value>
     </Setting>
+    <Setting Name="XLSX_SHEET" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">data</Value>
+    </Setting>
+    <Setting Name="XLSX_PATH" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.\ServerExcels\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
