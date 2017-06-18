@@ -149,5 +149,8 @@
     <Setting Name="XLSX_PATH" Type="System.String" Scope="Application">
       <Value Profile="(Default)">.\ServerExcels\</Value>
     </Setting>
+    <Setting Name="XLSX_EXPORT" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">서버XLSX추출여부</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -252,7 +252,7 @@ namespace IG_TableExporter
                         int keyIndex = lo.ListColumns[BranchDefines[branch].First().Key].Index;
 
                         // IG_Table에 define / desc 정보 보내기: 중국서버 xlsx 파일 생성용
-                        if (!table.ExistsMetaTable())
+                        if (!table.ExistsMetaTable() && ExportXLSX())
                         {
                             table.CreateMetaTable();
                             table.AddMetaTableInfos(define, dataType, desc, descCHN);
@@ -302,6 +302,9 @@ namespace IG_TableExporter
                                         }
                                     }
                                     table.EndAdd();
+
+                                    if (r % 5 == 0)
+                                        Globals.IG_PlanAddIn.Application.StatusBar = "계산 중: " + r + "/" + lo.ListRows.Count + "(" + lo.Name + ")";
                                 }
                             }
                         }
@@ -1341,6 +1344,22 @@ namespace IG_TableExporter
                 }
             }
             return null;
+        }
+
+        // 서버용 XLSX 추출여부
+        internal bool ExportXLSX()
+        {
+            foreach (Excel.Name name in Globals.IG_PlanAddIn.Application.ActiveWorkbook.Names)
+            {
+                if (name.Name.Equals(Properties.Settings.Default.XLSX_EXPORT))
+                {
+                    var tmp = name.RefersToRange.Value2;
+
+                    if (tmp != null) return tmp;
+
+                }
+            }
+            return true;
         }
 
         // 몬스터테이블의 스테이지목록 가져오기

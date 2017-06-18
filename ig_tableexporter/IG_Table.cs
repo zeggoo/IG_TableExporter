@@ -252,29 +252,34 @@ namespace IG_TableExporter
                 case "INTEGER":                
                 case "BOOL":
                     json.WriteRawValue(value);
-                    AddMetaTableEntry(value);
+                    if (ExistsMetaTable())
+                        AddMetaTableEntry(value);
                     break;
                 case "TEXT":
                     json.WriteValue(value);
-                    AddMetaTableEntry(value);
+                    if (ExistsMetaTable())
+                        AddMetaTableEntry(value);
                     break;
                 case "FLOAT_1K":
                 case "FLOAT_10K":
                 case "FLOAT_1M":
                 case "FLOAT":
                     json.WriteRawValue(value);
-                    AddMetaTableEntry(value);
+                    if (ExistsMetaTable())
+                        AddMetaTableEntry(value);
                     //json.WriteComment(String.Format("{0:P1}", Convert.ToDouble(value) / Properties.Settings.Default.PermilFactor));
                     break;
                 case "ARRAY":
                     // ARRAY 검증
                     json.WriteRawValue(value);
-                    AddMetaTableEntry(value);
+                    if (ExistsMetaTable())
+                        AddMetaTableEntry(value);
                     break;
                 default:
                     // SUBGROUP이 존재함
                     json.WriteRawValue(subgroups[dataType.ToUpper()][value].Split(Properties.Settings.Default.SubgroupSeperator)[0]);
-                    AddMetaTableEntry(subgroups[dataType.ToUpper()][value].Split(Properties.Settings.Default.SubgroupSeperator)[0]);
+                    if (ExistsMetaTable())
+                        AddMetaTableEntry(subgroups[dataType.ToUpper()][value].Split(Properties.Settings.Default.SubgroupSeperator)[0]);
                     //json.WriteComment(String.Format("{0}: {1}", value, subgroups[dataType.ToUpper()][value].Split(Properties.Settings.Default.SubgroupSeperator)[1]));
                     break;
             }

@@ -487,5 +487,14 @@ namespace IG_TableExporter.Properties {
                 return ((string)(this["XLSX_PATH"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("서버XLSX추출여부")]
+        public string XLSX_EXPORT {
+            get {
+                return ((string)(this["XLSX_EXPORT"]));
+            }
+        }
     }
 }
