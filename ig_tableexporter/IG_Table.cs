@@ -33,6 +33,7 @@ namespace IG_TableExporter
             BYTE,
             USHORT,
             UINT,
+            ULONG,
             SHORT,
             INT,
             LONG,
@@ -93,6 +94,8 @@ namespace IG_TableExporter
             json.WriteStartObject();
             wsRow++;
             wsCol = 1;
+
+            // 여따가 주석을 넣읍시다
         }
 
         public void StartAdd(int key)
@@ -106,6 +109,12 @@ namespace IG_TableExporter
             StartAdd();
         }
 
+        public void StartAdd(int key, string comment)
+        {
+            StartAdd(key);
+            if (ExistsMetaTable())
+                ws.Cells[wsRow, wsCol++] = comment;
+        }
         public void EndAdd()
         {
             json.WriteEndObject();
@@ -126,27 +135,34 @@ namespace IG_TableExporter
             try
             {
                 // 1행 2행 데이터
-                int cnt = 0;
+                int cnt = 1;
                 foreach (var k in define.Keys)
                 {
                     cnt++;
                     ws.Cells[1, cnt] = k;
                     ws.Cells[2, cnt] = GetMetaTableDataType(dataType[k]);                    
                 }
-                // 3행 데이터
-                cnt = 0;
-                foreach (var v in desc.Values)
-                {
-                    cnt++;
-                    ws.Cells[4, cnt] = v;
-                }
-                // 4행 데이터
-                cnt = 0;
+
+                // 3행 데이터                
+                cnt = 1;
                 foreach (var v in descCHN.Values)
                 {
                     cnt++;
                     ws.Cells[3, cnt] = v;
                 }
+
+                // 주석
+                ws.Cells[3, 1] = Properties.Settings.Default.CommentString2;
+                ws.Cells[4, 1] = Properties.Settings.Default.CommentString1;
+
+                // 4행 데이터
+                cnt = 1;
+                foreach (var v in desc.Values)
+                {
+                    cnt++;
+                    ws.Cells[4, cnt] = v;
+                }
+
                 wsRow = 4;
             }
             catch(Exception e)
@@ -188,6 +204,11 @@ namespace IG_TableExporter
 
         public void ReleaseMetaTable()
         {
+            // 삭제해줌
+            xl.DisplayAlerts = false;            
+            if (ws != null) ws.Delete();
+            xl.DisplayAlerts = true;
+
             System.Runtime.InteropServices.Marshal.ReleaseComObject(wb);
             System.Runtime.InteropServices.Marshal.ReleaseComObject(wb);
             System.Runtime.InteropServices.Marshal.ReleaseComObject(xl);
@@ -205,6 +226,8 @@ namespace IG_TableExporter
                 case "FLOAT_1M":
                 case "UINT":
                     return "unsigned int";
+                case "ULONG":
+                    return "unsigned long";
                 case "BOOL":
                 case "BYTE":
                     return "byte";
@@ -240,12 +263,13 @@ namespace IG_TableExporter
             // 데이터 타입에 따라 출력방식을 다르게 함
             switch (dataType.ToUpper())
             {
-                // UniqueKEY,KEY,BYTE,USHORT,UINT,SHORT,INT,FLOAT_1K,FLOAT_10K,FLOAT_1M,BOOL,TEXT,ARRAY
+                // UniqueKEY,KEY,BYTE,USHORT,UINT,ULONG,SHORT,INT,FLOAT_1K,FLOAT_10K,FLOAT_1M,BOOL,TEXT,ARRAY
                 case "UNIQUEKEY":
                 case "KEY":
                 case "BYTE":
                 case "USHORT":
                 case "UINT":
+                case "ULONG":
                 case "SHORT":
                 case "INT":       
                 case "LONG":

@@ -496,5 +496,23 @@ namespace IG_TableExporter.Properties {
                 return ((string)(this["XLSX_EXPORT"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("주석")]
+        public string CommentString1 {
+            get {
+                return ((string)(this["CommentString1"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("注释")]
+        public string CommentString2 {
+            get {
+                return ((string)(this["CommentString2"]));
+            }
+        }
     }
 }

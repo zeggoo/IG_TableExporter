@@ -152,5 +152,11 @@
     <Setting Name="XLSX_EXPORT" Type="System.String" Scope="Application">
       <Value Profile="(Default)">서버XLSX추출여부</Value>
     </Setting>
+    <Setting Name="CommentString1" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">주석</Value>
+    </Setting>
+    <Setting Name="CommentString2" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">注释</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

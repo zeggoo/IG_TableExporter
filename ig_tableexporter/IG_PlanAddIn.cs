@@ -251,12 +251,21 @@ namespace IG_TableExporter
                         // 유일키 인덱스 구하기
                         int keyIndex = lo.ListColumns[BranchDefines[branch].First().Key].Index;
 
-                        // IG_Table에 define / desc 정보 보내기: 중국서버 xlsx 파일 생성용
-                        if (!table.ExistsMetaTable() && ExportXLSX())
-                        {
-                            table.CreateMetaTable();
-                            table.AddMetaTableInfos(define, dataType, desc, descCHN);
-                        }
+                        // 주석 인덱스 구하기
+                        int commentIndex = 0;
+                        for (int c = 1; c <= lo.ListColumns.Count; c++)
+                            if (lo.HeaderRowRange[1, c].value2 == Properties.Settings.Default.CommentString1 || lo.HeaderRowRange[1, c].value2 == Properties.Settings.Default.CommentString2)
+                            {
+                                commentIndex = c;
+                                break;
+                            }
+
+                            // IG_Table에 define / desc 정보 보내기: 중국서버 xlsx 파일 생성용
+                            if (!table.ExistsMetaTable() && ExportXLSX())
+                            {
+                                table.CreateMetaTable();
+                                table.AddMetaTableInfos(define, dataType, desc, descCHN);
+                            }
 
                         for (int r = 1; r <= lo.ListRows.Count; r++)
                         {
@@ -268,9 +277,13 @@ namespace IG_TableExporter
                                 if (id > 0)
                                 {
                                     if (table.ContainsKey(id) && table.UniqueKey)
-                                        throw new Exception(String.Format("인덱스 중복오류: {0}", id));
-
-                                    table.StartAdd(id);
+                                        throw new Exception(String.Format("인덱스 중복오류: {0}", id));       
+                             
+                                    // 주석 삽입
+                                    if (commentIndex > 0)
+                                        table.StartAdd(id, Convert.ToString(lo.DataBodyRange[r, commentIndex].value2));
+                                    else
+                                        table.StartAdd(id, "");
 
                                     foreach (string k in BranchDefines[branch].Keys)
                                     {
@@ -291,12 +304,14 @@ namespace IG_TableExporter
                                             System.Windows.Forms.Clipboard.SetText(Convert.ToString(id));
                                             if (dataType[k] != null)
                                             {
-                                                table.ReleaseMetaTable();
+                                                if (table.ExistsMetaTable())
+                                                    table.ReleaseMetaTable();
                                                 throw new Exception(String.Format("[데이터타입 오류]\n{0}\n인덱스: {1}\n필드명: {2}", e.Message, id, k));
                                             }
                                             else
                                             {
-                                                table.ReleaseMetaTable();
+                                                if (table.ExistsMetaTable())
+                                                    table.ReleaseMetaTable();
                                                 throw new Exception(String.Format("[데이터타입 미설정 오류]\n인덱스: {0}", k));
                                             }
                                         }
@@ -1686,6 +1701,10 @@ namespace IG_TableExporter
                         tmp = Convert.ToUInt32(data).ToString();
                         validate = !(!String.IsNullOrEmpty(min) && Convert.ToUInt32(min) > Convert.ToUInt32(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToUInt32(max) < Convert.ToUInt32(tmp));
                         break;
+                    case "ULONG":
+                        tmp = Convert.ToUInt64(data).ToString();
+                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToUInt64(min) > Convert.ToUInt64(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToUInt64(max) < Convert.ToUInt64(tmp));
+                        break;
                     case "BYTE":
                         tmp = Convert.ToByte(data).ToString();
                         validate = !(!String.IsNullOrEmpty(min) && Convert.ToByte(min) > Convert.ToByte(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToByte(max) < Convert.ToByte(tmp));
@@ -1735,11 +1754,12 @@ namespace IG_TableExporter
                     case "ARRAY":
                         tmp = Convert.ToString(data);                        
                         if (tmp.First().ToString() == Properties.Settings.Default.ARRAY_PREFIX && tmp.Last().ToString() == Properties.Settings.Default.ARRAY_POSTFIX)
-                        {
+                        {                            
                             // Array의 빈 자리가 있는지 체크
                             var arr = tmp.Substring(1, tmp.Length - 2);
                             var tmpArr = arr.Split(Properties.Settings.Default.ARRAY_SEPARATOR.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
-                            validate = tmpArr.Length == arr.Split(Properties.Settings.Default.ARRAY_SEPARATOR.ToCharArray(), StringSplitOptions.None).Length;                            
+                            //validate = tmpArr.Length == arr.Split(Properties.Settings.Default.ARRAY_SEPARATOR.ToCharArray(), StringSplitOptions.None).Length;                            
+                         
 
                             // min/max 체크(double type으로)
                             foreach(var v in tmpArr)
