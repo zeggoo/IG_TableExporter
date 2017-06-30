@@ -1311,7 +1311,7 @@ namespace IG_TableExporter
                 WriteTable(fileNames[i], tables[i]);
         }
 
-        private bool IsValidContentsId(string contentsid)
+        private bool IsValidContentsId(object contentsid)
         {
             //string[] contentsList = TableInfo;
 
@@ -1321,7 +1321,7 @@ namespace IG_TableExporter
             {
                 foreach (string content in TableInfo)
                 {
-                    if (content.Equals(contentsid))
+                    if (content.Equals(Convert.ToString(contentsid)))
                     {
                         return true;
                     }
@@ -1907,7 +1907,7 @@ namespace IG_TableExporter
                             {
                                 if ((bool)reference == true)
                                 {
-                                    tmp[cnt] = (string)contents;
+                                    tmp[cnt] = Convert.ToString(contents);
                                     cnt++;
                                 }
                             }
@@ -1915,7 +1915,7 @@ namespace IG_TableExporter
                             {
                                 if (contents != null && ((string)contents).Length > 0)
                                 {
-                                    tmp[cnt] = (string)reference;
+                                    tmp[cnt] = Convert.ToString(reference);
                                     cnt++;
                                 }
                             }                            

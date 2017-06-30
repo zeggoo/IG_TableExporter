@@ -205,12 +205,12 @@ namespace IG_TableExporter
         public void ReleaseMetaTable()
         {
             // 삭제해줌
-            xl.DisplayAlerts = false;            
-            if (ws != null) ws.Delete();
-            xl.DisplayAlerts = true;
+            //xl.DisplayAlerts = false;            
+            //if (ws != null) ws.Delete();
+            //xl.DisplayAlerts = true;
 
             System.Runtime.InteropServices.Marshal.ReleaseComObject(wb);
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(wb);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(ws);
             System.Runtime.InteropServices.Marshal.ReleaseComObject(xl);
         }
 
