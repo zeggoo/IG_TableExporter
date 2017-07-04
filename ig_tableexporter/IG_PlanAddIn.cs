@@ -304,14 +304,14 @@ namespace IG_TableExporter
                                             System.Windows.Forms.Clipboard.SetText(Convert.ToString(id));
                                             if (dataType[k] != null)
                                             {
-                                                if (table.ExistsMetaTable())
-                                                    table.ReleaseMetaTable();
+                                                //if (table.ExistsMetaTable())
+                                                 //   table.ReleaseMetaTable();
                                                 throw new Exception(String.Format("[데이터타입 오류]\n{0}\n인덱스: {1}\n필드명: {2}", e.Message, id, k));
                                             }
                                             else
                                             {
-                                                if (table.ExistsMetaTable())
-                                                    table.ReleaseMetaTable();
+                                                //if (table.ExistsMetaTable())
+                                                 //   table.ReleaseMetaTable();
                                                 throw new Exception(String.Format("[데이터타입 미설정 오류]\n인덱스: {0}", k));
                                             }
                                         }
@@ -329,7 +329,10 @@ namespace IG_TableExporter
             }
 
             if (table.ExistsMetaTable())
+            {
+                table.SaveMetaTable();
                 table.CloseMetaTable();
+            }
             if (cnt <= 0) throw new Exception("테이블명이 정확하지 않습니다.");
                 return table;
         }

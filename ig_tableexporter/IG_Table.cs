@@ -89,6 +89,15 @@ namespace IG_TableExporter
             json.WriteStartArray();
         }
 
+        ~IG_Table()
+        {
+            //if (this.ExistsMetaTable())
+            //{
+                ReleaseMetaTable();
+            //}
+                
+        }
+
         public void StartAdd()
         {
             json.WriteStartObject();
@@ -176,10 +185,10 @@ namespace IG_TableExporter
             ws.Cells[wsRow, wsCol++] = value;
         }
 
-        public void CloseMetaTable()
+        public void SaveMetaTable()
         {
             var ServerExcelPath = Globals.IG_PlanAddIn.Application.ActiveWorkbook.Path + Path.DirectorySeparatorChar + Properties.Settings.Default.XLSX_PATH;
-            
+
             // 저장 경고 무시
             xl.DisplayAlerts = false;
 
@@ -190,16 +199,21 @@ namespace IG_TableExporter
                 AccessMode: Excel.XlSaveAsAccessMode.xlExclusive);
 
             xl.DisplayAlerts = true;
+        }
 
+        public void CloseMetaTable()
+        {
+            xl.DisplayAlerts = false;
             wb.Close();
             xl.Quit();
+            xl.DisplayAlerts = true;
 
             ReleaseMetaTable();
         }
 
         public bool ExistsMetaTable()
         {
-            return ws != null;
+            return xl != null;
         }
 
         public void ReleaseMetaTable()

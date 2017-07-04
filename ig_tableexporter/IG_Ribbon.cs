@@ -60,7 +60,7 @@ namespace IG_TableExporter
                 Globals.IG_PlanAddIn.SVNDiff(saveTableFileDialog.FileName);
             }
             catch (Exception except)
-            {
+            {                
                 MessageBox.Show(except.Message, "테이블 추출 오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
