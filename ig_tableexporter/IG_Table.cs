@@ -149,7 +149,7 @@ namespace IG_TableExporter
                 {
                     cnt++;
                     ws.Cells[1, cnt] = k;
-                    ws.Cells[2, cnt] = GetMetaTableDataType(dataType[k]);                    
+                    ws.Cells[2, cnt] = IG_Table.GetMetaTableDataType(dataType[k]);                    
                 }
 
                 // 3행 데이터                
@@ -229,7 +229,7 @@ namespace IG_TableExporter
         }
 
         // DataType을 참조하여 실제 데이터타입명을 출력
-        private string GetMetaTableDataType(string dataType)
+        internal static string GetMetaTableDataType(string dataType)
         {
             switch (dataType.ToUpper())
             {

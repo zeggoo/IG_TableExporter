@@ -25,6 +25,7 @@ namespace IG_TableExporter
             btnExportTable.Enabled = false;
             btnExportMonsterTable.Enabled = false;
             btnExportMetaTable.Enabled = false;
+            btnExportVerification.Enabled = false;
             //IG_TableGroup.Label = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).ProductVersion;
             branch = null;
         }
@@ -65,11 +66,37 @@ namespace IG_TableExporter
             }
         }
 
+        private void btnExportVerification_Click(object sender, RibbonControlEventArgs e)
+        {
+            var tableName = Globals.IG_PlanAddIn.GetTableName();
+            var fileName = Globals.IG_PlanAddIn.Application.ActiveWorkbook.Path + Path.DirectorySeparatorChar +
+                                    Properties.Settings.Default.DefinePath + Properties.Settings.Default.DefinePrefix + tableName + "." + Properties.Settings.Default.DefineExt;
+            if (String.IsNullOrEmpty(tableName))
+                saveTableFileDialog.FileName = System.IO.Path.GetFileNameWithoutExtension(Globals.IG_PlanAddIn.Application.ActiveWorkbook.Name);
+            else
+                saveTableFileDialog.FileName = tableName;
+
+            // 테이블유효성 검증을 위한 json 파일 추출
+            try
+            {
+                Globals.IG_PlanAddIn.WriteDefine(fileName, Globals.IG_PlanAddIn.ExportDefine(branch));
+                MessageBox.Show(Properties.Settings.Default.DefinePrefix + tableName + "을 추출하였습니다.", "define 추출 성공", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception except)
+            {
+                MessageBox.Show(except.Message, "define 추출 오류", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // 강제 diff
+            Globals.IG_PlanAddIn.SVNDiff(fileName);
+        }
+
         private void branchComboBox_TextChanged(object sender, RibbonControlEventArgs e)
         {
             btnExport_Refresh();
             btnExportMonsterTable_Refresh();
             btnExportMetaTable_Refresh();
+            btnExportVerification_Refresh();
             branch = branchComboBox.Text;
         }
 
@@ -103,6 +130,7 @@ namespace IG_TableExporter
             finally
             {
                 btnExport_Refresh();
+                btnExportVerification_Refresh();
                 btnExportMonsterTable_Refresh();
                 btnExportMetaTable_Refresh();
             }
@@ -114,6 +142,14 @@ namespace IG_TableExporter
                 btnExportTable.Enabled = true;
             else
                 btnExportTable.Enabled = false;
+        }
+
+        private void btnExportVerification_Refresh()
+        {
+            if (branchLoaded && Globals.IG_PlanAddIn.BranchList.Contains(branchComboBox.Text))
+                btnExportVerification.Enabled = true;
+            else
+                btnExportVerification.Enabled = false;
         }
 
         private void btnExportMonsterTable_Refresh()

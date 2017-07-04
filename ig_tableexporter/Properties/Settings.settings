@@ -158,5 +158,14 @@
     <Setting Name="CommentString2" Type="System.String" Scope="Application">
       <Value Profile="(Default)">注释</Value>
     </Setting>
+    <Setting Name="DefinePath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">.\Defines\</Value>
+    </Setting>
+    <Setting Name="DefinePrefix" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">def-</Value>
+    </Setting>
+    <Setting Name="DefineExt" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">json</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -514,5 +514,32 @@ namespace IG_TableExporter.Properties {
                 return ((string)(this["CommentString2"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(".\\Defines\\")]
+        public string DefinePath {
+            get {
+                return ((string)(this["DefinePath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("def-")]
+        public string DefinePrefix {
+            get {
+                return ((string)(this["DefinePrefix"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("json")]
+        public string DefineExt {
+            get {
+                return ((string)(this["DefineExt"]));
+            }
+        }
     }
 }

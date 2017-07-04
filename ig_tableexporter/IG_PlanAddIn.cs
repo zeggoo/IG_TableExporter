@@ -191,7 +191,7 @@ namespace IG_TableExporter
             // 필드 최소/최대값 검증을 위한 필드
             Dictionary<string, Dictionary<string, string>> mins;
             Dictionary<string, Dictionary<string, string>> maxes;
-
+            
             /*
             IG_Table table = new IG_Table(GetTableName());
             if (table == null) throw new Exception("테이블명이 제대로 설정되지 않았습니다.");
@@ -335,6 +335,99 @@ namespace IG_TableExporter
             }
             if (cnt <= 0) throw new Exception("테이블명이 정확하지 않습니다.");
                 return table;
+        }
+        #endregion
+
+        #region DEFINE 처리 코드
+
+        public String ExportDefine(string branch)
+        {
+            // 각종 테이블정보 초기화
+            InitiateInfo();
+            var sb = new StringBuilder();
+            var wr = new JsonTextWriter(new StringWriter(sb));
+
+            Dictionary<string, string> define;
+            Dictionary<string, string> dataType;
+            Dictionary<string, Dictionary<string, string>> subgroups;
+
+            // 필드 최소/최대값 검증을 위한 필드
+            Dictionary<string, string> min;
+            Dictionary<string, string> max;
+
+            // 필드 참조 테이블 검증을 위한 필드
+            Dictionary<string, string> refTable;
+            Dictionary<string, string> refField;
+
+            if (!BranchDefines.ContainsKey(branch)) throw new Exception("[" + branch + "] 브랜치 설정이 존재하지 않습니다.");
+
+            define = BranchDefines[branch];
+            ChangeBranch(branch);
+
+            //IG_Table table = new IG_Table(GetTableName(), define.First().Key == Properties.Settings.Default.UniqueKeyName);
+            //if (table == null) throw new Exception("테이블명이 제대로 설정되지 않았습니다.");
+
+            dataType = BranchDataTypes[branch];
+            subgroups = GetSubgroups();
+            char[] subgroupSeparator = {';'};
+            min = GetBranchMins()[branch];
+            max = GetBranchMaxes()[branch];
+            refTable = GetBranchRefTable()[branch];
+            refField = GetBranchRefField()[branch];
+
+            // 여기서부터 def-######.json 파일 추출
+            wr.Formatting = Formatting.Indented;
+            wr.WriteStartObject();
+            wr.WritePropertyName("tablename");
+            wr.WriteValue(GetTableName());
+            wr.WritePropertyName("tablefields");
+            wr.WriteStartArray();
+            foreach(var fieldName in define.Keys)
+            {
+                wr.WriteStartObject();
+                wr.WritePropertyName("name");
+                wr.WriteValue(fieldName);
+                wr.WritePropertyName("datatype");
+                wr.WriteValue(IG_Table.GetMetaTableDataType(dataType[fieldName]));
+                wr.WritePropertyName("isunique");                
+                wr.WriteValue(dataType[fieldName] == "UniqueKEY");
+                if (subgroups.ContainsKey(dataType[fieldName]))
+                {
+                    wr.WritePropertyName("limitedvalue");
+                    wr.WriteStartArray();
+                    // 서브그룹 설정
+                    foreach (var v in subgroups[dataType[fieldName]].Values)
+                        wr.WriteRawValue(v.Split(subgroupSeparator)[0]);
+                    wr.WriteEndArray();
+                }
+                if (!String.IsNullOrEmpty(min[fieldName]))
+                {
+                    wr.WritePropertyName("minvalue");
+                    wr.WriteValue(min[fieldName]);
+                }
+                if (!String.IsNullOrEmpty(max[fieldName]))
+                {
+                    wr.WritePropertyName("maxvalue");
+                    wr.WriteValue(max[fieldName]);
+                }
+                
+                if (!String.IsNullOrEmpty(refTable[fieldName]))
+                {
+                    wr.WritePropertyName("reftable");
+                    wr.WriteValue(refTable[fieldName]);
+                }
+                if (!String.IsNullOrEmpty(refField[fieldName]))
+                {
+                    wr.WritePropertyName("reftablefield");
+                    wr.WriteValue(refField[fieldName]);
+                }
+                wr.WriteEndObject();
+
+            }
+            wr.WriteEndArray();
+            wr.WriteEndObject();
+
+            return sb.ToString();
         }
         #endregion
 
@@ -1314,6 +1407,18 @@ namespace IG_TableExporter
                 WriteTable(fileNames[i], tables[i]);
         }
 
+        internal void WriteDefine(string fileName, String def)
+        {
+            if (fileName != "")
+            {
+                File.WriteAllText(fileName, def, Encoding.UTF8);
+            }
+            else
+            {
+                throw new Exception("파일명 - " + fileName + " - 이 정확하지 않습니다.");
+            }
+        }
+
         private bool IsValidContentsId(object contentsid)
         {
             //string[] contentsList = TableInfo;
@@ -1560,6 +1665,86 @@ namespace IG_TableExporter
                 tmpMaxes.Add(branch, tmpMax);
             }
             return tmpMaxes;
+        }
+
+        private Dictionary<string, Dictionary<string, string>> GetBranchRefTable()
+        {
+            Dictionary<string, string> tmpTable;
+            Dictionary<string, Dictionary<string, string>> tmpTables = new Dictionary<string, Dictionary<string, string>>();
+
+            foreach (string branch in BranchList)
+            {
+                tmpTable = new Dictionary<string, string>();
+
+                foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
+                {
+                    foreach (Excel.ListObject lo in ws.ListObjects)
+                    {
+                        if (lo.Name.Equals(Properties.Settings.Default.BranchDefineName))
+                        {
+                            string k, v;
+                            for (int r = 0; r < lo.ListRows.Count; r++)
+                            {
+                                if (branch.Equals(lo.DataBodyRange[r + 1, lo.ListColumns["branchID"].Index].value2))
+                                {
+                                    k = (string)lo.DataBodyRange[r + 1, lo.ListColumns["field"].Index].value2;
+                                    try
+                                    {
+                                        v = "" + lo.DataBodyRange[r + 1, lo.ListColumns["ref_table"].Index].value2;
+                                        tmpTable.Add(k, v);
+                                    }
+                                    catch
+                                    {
+                                        tmpTable.Add(k, "");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                tmpTables.Add(branch, tmpTable);
+            }
+            return tmpTables;
+        }
+
+        private Dictionary<string, Dictionary<string, string>> GetBranchRefField()
+        {
+            Dictionary<string, string> tmpField;
+            Dictionary<string, Dictionary<string, string>> tmpFields = new Dictionary<string, Dictionary<string, string>>();
+
+            foreach (string branch in BranchList)
+            {
+                tmpField = new Dictionary<string, string>();
+
+                foreach (Excel.Worksheet ws in Globals.IG_PlanAddIn.Application.Worksheets)
+                {
+                    foreach (Excel.ListObject lo in ws.ListObjects)
+                    {
+                        if (lo.Name.Equals(Properties.Settings.Default.BranchDefineName))
+                        {
+                            string k, v;
+                            for (int r = 0; r < lo.ListRows.Count; r++)
+                            {
+                                if (branch.Equals(lo.DataBodyRange[r + 1, lo.ListColumns["branchID"].Index].value2))
+                                {
+                                    k = (string)lo.DataBodyRange[r + 1, lo.ListColumns["field"].Index].value2;
+                                    try
+                                    {
+                                        v = "" + lo.DataBodyRange[r + 1, lo.ListColumns["ref_field"].Index].value2;
+                                        tmpField.Add(k, v);
+                                    }
+                                    catch
+                                    {
+                                        tmpField.Add(k, "");
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                tmpFields.Add(branch, tmpField);
+            }
+            return tmpFields;
         }
 
         // Alias로 설정해야할 필드인지 체크
