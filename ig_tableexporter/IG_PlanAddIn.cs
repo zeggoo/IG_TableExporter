@@ -391,35 +391,45 @@ namespace IG_TableExporter
                 wr.WriteValue(IG_Table.GetMetaTableDataType(dataType[fieldName]));
                 wr.WritePropertyName("isunique");                
                 wr.WriteValue(dataType[fieldName] == "UniqueKEY");
-                if (subgroups.ContainsKey(dataType[fieldName]))
+                if (subgroups.ContainsKey(dataType[fieldName].ToUpper()))
                 {
                     wr.WritePropertyName("limitedvalue");
                     wr.WriteStartArray();
                     // 서브그룹 설정
-                    foreach (var v in subgroups[dataType[fieldName]].Values)
+                    foreach (var v in subgroups[dataType[fieldName].ToUpper()].Values)
                         wr.WriteRawValue(v.Split(subgroupSeparator)[0]);
                     wr.WriteEndArray();
                 }
                 if (!String.IsNullOrEmpty(min[fieldName]))
                 {
                     wr.WritePropertyName("minvalue");
-                    wr.WriteValue(min[fieldName]);
+                    wr.WriteRawValue(min[fieldName]);
                 }
                 if (!String.IsNullOrEmpty(max[fieldName]))
                 {
                     wr.WritePropertyName("maxvalue");
-                    wr.WriteValue(max[fieldName]);
+                    wr.WriteRawValue(max[fieldName]);
                 }
-                
-                if (!String.IsNullOrEmpty(refTable[fieldName]))
+
+                if (!String.IsNullOrEmpty(refTable[fieldName]) && !String.IsNullOrEmpty(refField[fieldName]))
                 {
-                    wr.WritePropertyName("reftable");
-                    wr.WriteValue(refTable[fieldName]);
-                }
-                if (!String.IsNullOrEmpty(refField[fieldName]))
-                {
-                    wr.WritePropertyName("reftablefield");
-                    wr.WriteValue(refField[fieldName]);
+                    var tmpTables = refTable[fieldName].Split(",".ToCharArray());
+                    var tmpFields = refField[fieldName].Split(",".ToCharArray());
+
+                    if (tmpTables.Length != tmpFields.Length) throw new Exception("[" + fieldName + "] 필드의 ref_table/ref_field 설정에 오류가 있습니다.");
+
+                    wr.WritePropertyName("ref_tables");
+                    wr.WriteStartArray();
+                    for (int i = 0; i < tmpTables.Length; i++)
+                    {
+                        wr.WriteStartObject();
+                        wr.WritePropertyName("tableName");
+                        wr.WriteValue(tmpTables[i]);
+                        wr.WritePropertyName("tableField");
+                        wr.WriteValue(tmpFields[i]);
+                        wr.WriteEndObject();
+                    }
+                    wr.WriteEndArray();
                 }
                 wr.WriteEndObject();
 
