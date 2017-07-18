@@ -17,10 +17,14 @@ namespace IG_TableExporter
         private bool hasUniqueKey;
 
         private int wsRow, wsCol;
+        private int maxRow, maxCol;
 
         private Excel.Application xl;
         private Excel.Workbook wb;
         private Excel.Worksheet ws;
+        private Excel.Comments comments;
+
+        private object[,] xlsxData;
 
         private StringBuilder sb;
         private StringWriter sw;
@@ -137,6 +141,10 @@ namespace IG_TableExporter
             ws = wb.ActiveSheet;
             ws.Name = Properties.Settings.Default.XLSX_SHEET;
             wsRow = wsCol = 0;
+            maxRow = maxCol = 0;
+            
+            // 속도가 너무 느려서 Cell 방식에서 2D array 방식으로 변경
+            xlsxData = new object[Properties.Settings.Default.MaxXlsxRow, Properties.Settings.Default.MaxXlsxColum];            
         }
 
         public void AddMetaTableInfos(Dictionary<string, string> define, Dictionary<string, string>dataType, Dictionary<string, string>desc, Dictionary<string, string>descCHN)
@@ -148,28 +156,39 @@ namespace IG_TableExporter
                 foreach (var k in define.Keys)
                 {
                     cnt++;
-                    ws.Cells[1, cnt] = k;
-                    ws.Cells[2, cnt] = IG_Table.GetMetaTableDataType(dataType[k]);                    
+                    //ws.Cells[1, cnt] = k;
+                    //ws.Cells[2, cnt] = IG_Table.GetMetaTableDataType(dataType[k]);
+
+                    xlsxData[1, cnt] = k;
+                    xlsxData[2, cnt] = IG_Table.GetMetaTableDataType(dataType[k]);
                 }
+                maxCol = cnt;
 
                 // 3행 데이터                
                 cnt = 1;
                 foreach (var v in descCHN.Values)
                 {
                     cnt++;
-                    ws.Cells[3, cnt] = v;
+                    //ws.Cells[3, cnt] = v;
+
+                    xlsxData[3, cnt] = v;
                 }
 
                 // 주석
-                ws.Cells[3, 1] = Properties.Settings.Default.CommentString2;
-                ws.Cells[4, 1] = Properties.Settings.Default.CommentString1;
+                //ws.Cells[3, 1] = Properties.Settings.Default.CommentString2;
+                //ws.Cells[4, 1] = Properties.Settings.Default.CommentString1;
+
+                xlsxData[3, 1] = Properties.Settings.Default.CommentString2;
+                xlsxData[4, 1] = Properties.Settings.Default.CommentString1;
 
                 // 4행 데이터
                 cnt = 1;
                 foreach (var v in desc.Values)
                 {
                     cnt++;
-                    ws.Cells[4, cnt] = v;
+                    //ws.Cells[4, cnt] = v;
+
+                    xlsxData[4, cnt] = v;
                 }
 
                 wsRow = 4;
@@ -182,23 +201,61 @@ namespace IG_TableExporter
 
         public void AddMetaTableEntry(string value)
         {
-            ws.Cells[wsRow, wsCol++] = value;
+            //ws.Cells[wsRow, wsCol++] = value;
+            xlsxData[wsRow, wsCol++] = (object)value;
+            maxRow = wsRow;
         }
 
         public void SaveMetaTable()
         {
-            var ServerExcelPath = Globals.IG_PlanAddIn.Application.ActiveWorkbook.Path + Path.DirectorySeparatorChar + Properties.Settings.Default.XLSX_PATH;
+            // 여기서 2d array를 range로 변경함
+            var data = new object[maxRow, maxCol];
+            for (int r = 0; r < maxRow; r++)
+                for (int c = 0; c < maxCol; c++)
+                    data[r, c] = xlsxData[r + 1, c + 1];
+
+            var xlsxRng = (Excel.Range)ws.Cells[1, 1];
+            xlsxRng = xlsxRng.get_Resize(maxRow, maxCol);
+            xlsxRng.set_Value(Excel.XlRangeValueDataType.xlRangeValueDefault, data);
+            //xlsxRng.Value2 = data;
 
             // 저장 경고 무시
             xl.DisplayAlerts = false;
 
+            var ServerExcelPath = GetServerExcelPath();
+
             if (!Directory.Exists(ServerExcelPath))
                 Directory.CreateDirectory(ServerExcelPath);
 
-            wb.SaveAs(Globals.IG_PlanAddIn.Application.ActiveWorkbook.Path + Path.DirectorySeparatorChar + Properties.Settings.Default.XLSX_PATH + this.name,
-                AccessMode: Excel.XlSaveAsAccessMode.xlExclusive);
+            wb.SaveAs(ServerExcelPath + this.name, AccessMode: Excel.XlSaveAsAccessMode.xlExclusive);
 
             xl.DisplayAlerts = true;
+        }
+
+        #region 서버xlsx 코멘트 남기기
+        public void ReadMetaTableComments()
+        {
+            var ServerExcelPath = GetServerExcelPath();
+
+            var tmpWb = Globals.IG_PlanAddIn.Application.Workbooks.Open(ServerExcelPath + this.name);
+            comments = tmpWb.ActiveSheet.Comments;
+            foreach(var comment in comments)
+            {
+                comment.ToString();  
+            }
+
+            tmpWb.Close(false);
+        }
+
+        public void WriteMetaTableComments()
+        {
+            //xl.add
+        }
+        #endregion
+
+        internal string GetServerExcelPath()
+        {
+            return Globals.IG_PlanAddIn.Application.ActiveWorkbook.Path + Path.DirectorySeparatorChar + Properties.Settings.Default.XLSX_PATH;
         }
 
         public void CloseMetaTable()

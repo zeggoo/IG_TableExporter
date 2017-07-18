@@ -541,5 +541,23 @@ namespace IG_TableExporter.Properties {
                 return ((string)(this["DefineExt"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100000")]
+        public int MaxXlsxRow {
+            get {
+                return ((int)(this["MaxXlsxRow"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1000")]
+        public int MaxXlsxColum {
+            get {
+                return ((int)(this["MaxXlsxColum"]));
+            }
+        }
     }
 }

@@ -263,7 +263,10 @@ namespace IG_TableExporter
                             // IG_Table에 define / desc 정보 보내기: 중국서버 xlsx 파일 생성용
                             if (!table.ExistsMetaTable() && ExportXLSX())
                             {
+                                // 서버xlsx 메모 정보 읽어오기
+                                //table.ReadMetaTableComments();
                                 table.CreateMetaTable();
+                                //table.WriteMetaTableComments();
                                 table.AddMetaTableInfos(define, dataType, desc, descCHN);
                             }
 
@@ -1904,9 +1907,10 @@ namespace IG_TableExporter
                         validate = !(!String.IsNullOrEmpty(min) && Convert.ToUInt64(min) > Convert.ToUInt64(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToUInt64(max) < Convert.ToUInt64(tmp));
                         break;
                     case "BYTE":
-                        tmp = Convert.ToByte(data).ToString();
-                        validate = !(!String.IsNullOrEmpty(min) && Convert.ToByte(min) > Convert.ToByte(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToByte(max) < Convert.ToByte(tmp));
-                        break;
+                        // byte 타입은 수치최대값이 작아 강제로 USHORT 처리함
+                        //tmp = Convert.ToByte(data).ToString();                        
+                        //validate = !(!String.IsNullOrEmpty(min) && Convert.ToByte(min) > Convert.ToByte(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToByte(max) < Convert.ToByte(tmp));
+                        //break;
                     case "USHORT":
                         tmp = Convert.ToUInt16(data).ToString();
                         validate = !(!String.IsNullOrEmpty(min) && Convert.ToUInt16(min) > Convert.ToUInt16(tmp)) && !(!String.IsNullOrEmpty(max) && Convert.ToUInt16(max) < Convert.ToUInt16(tmp));                        
@@ -1979,7 +1983,7 @@ namespace IG_TableExporter
                         break;
                 }
             }
-            catch
+            catch(Exception e)
             {
                 validate = false;
             }
