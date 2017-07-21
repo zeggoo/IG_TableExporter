@@ -126,7 +126,7 @@ namespace IG_TableExporter
         {
             StartAdd(key);
             if (ExistsMetaTable())
-                ws.Cells[wsRow, wsCol++] = comment;
+                xlsxData[wsRow, wsCol++] = comment;
         }
         public void EndAdd()
         {
