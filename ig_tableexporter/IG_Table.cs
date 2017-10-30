@@ -160,7 +160,7 @@ namespace IG_TableExporter
                     //ws.Cells[2, cnt] = IG_Table.GetMetaTableDataType(dataType[k]);
 
                     xlsxData[1, cnt] = k;
-                    xlsxData[2, cnt] = IG_Table.GetMetaTableDataType(dataType[k]);
+                    xlsxData[2, cnt] = IG_Table.GetMetaTableDataType(dataType[k], k);
                 }
                 maxCol = cnt;
 
@@ -286,7 +286,7 @@ namespace IG_TableExporter
         }
 
         // DataType을 참조하여 실제 데이터타입명을 출력
-        internal static string GetMetaTableDataType(string dataType)
+        internal static string GetMetaTableDataType(string dataType, string k = null)
         {
             switch (dataType.ToUpper())
             {
@@ -319,6 +319,22 @@ namespace IG_TableExporter
                     return "jsonobject";
                 default:
                     // subgroup일 경우, byte
+                    if (k != null)
+                    {
+                        var customKey = k.Substring(k.IndexOf('_'), k.Length - k.IndexOf('_'));
+
+                        switch (customKey)
+                        {
+                            case "_ui":
+                                return "unsigned int";
+                                break;
+                            case "_us":
+                                return "unsigned short";
+                                break;
+                            default:
+                                return "byte";
+                        }
+                    }   
                     return "byte";
             }
         }
